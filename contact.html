@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Contact Dream Travel support team. Ask questions, submit feedback or chat live with Dream AI.">
+    <title>Contact Us - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate On Scroll (AOS) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer -->
+    <script src="js/darkmode.js"></script>
+</head>
+
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold" style="color: var(--primary-accent);">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html"
+                            data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html"
+                            data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="hotels.html" data-i18n="nav.hotels">Hotels</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html#ai-planner-section"
+                            data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="gallery.html"
+                            data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="about.html" data-i18n="nav.about">About</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link-custom active" href="contact.html"
+                            data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i
+                            class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn"
+                        title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
+                            aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
+                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
+                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header text-center">
+        <div class="container" data-aos="fade-down">
+            <h1 class="font-weight-bold" data-i18n="nav.contact">Contact Us</h1>
+            <p class="text-muted" data-i18n="contact.subtitle">Have questions? Our support team and AI are available
+                24/7.</p>
+        </div>
+    </header>
+
+    <!-- Contact details and Form -->
+    <main class="py-5">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-5">
+                <!-- Info cards column -->
+                <div class="col-lg-5">
+                    <div class="d-flex flex-column gap-4">
+                        <!-- Direct Details card -->
+                        <div class="glass-card">
+                            <h4 class="font-weight-bold text-teal mb-4" data-i18n="creator.contact">Contact Info</h4>
+
+                            <div class="d-flex gap-3 align-items-center mb-3">
+                                <div class="info-icon-box"><i class="fa-regular fa-envelope"></i></div>
+                                <div>
+                                    <span class="small text-muted d-block" data-i18n="contact.email">Email
+                                        Address</span>
+                                    <strong class="text-sm">support@dreamtravel.com</strong>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 align-items-center mb-3">
+                                <div class="info-icon-box"><i class="fa-solid fa-phone"></i></div>
+                                <div>
+                                    <span class="small text-muted d-block">Phone hotline</span>
+                                    <strong class="text-sm">+84 905 123 456</strong>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 align-items-center">
+                                <div class="info-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                                <div>
+                                    <span class="small text-muted d-block">Developer Address</span>
+                                    <strong class="text-sm">THCS Kim Đồng, Da Nang, Vietnam</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business hours card -->
+                        <div class="glass-card">
+                            <h4 class="font-weight-bold text-teal mb-3" data-i18n="contact.hours">Business Hours</h4>
+                            <ul class="list-unstyled mb-0 text-muted small d-flex flex-column gap-2">
+                                <li data-i18n="contact.hours.weekday">Monday - Friday: 8:00 AM - 6:00 PM</li>
+                                <li data-i18n="contact.hours.sat">Saturday: 9:00 AM - 4:00 PM</li>
+                                <li data-i18n="contact.hours.sun">Sunday: Closed</li>
+                            </ul>
+                            <button class="btn btn-premium w-100 mt-4 justify-content-center py-2 text-sm"
+                                onclick="document.getElementById('ai-chat-toggle').click();">
+                                <i class="fa-solid fa-comments me-2"></i> <span data-i18n="contact.livechat">Open Live
+                                    Chat</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact form column -->
+                <div class="col-lg-7">
+                    <div class="glass-card glass-shine h-100">
+                        <h4 class="font-weight-bold text-teal mb-2" data-i18n="contact.form.title">Send Us A Message
+                        </h4>
+                        <p class="text-muted small mb-4">Fill out the form below and we will get back to you within 24
+                            business hours.</p>
+
+                        <form id="contact-support-form">
+                            <div class="mb-3">
+                                <label class="form-label text-muted small" data-i18n="contact.name">Full Name</label>
+                                <input type="text" class="form-control glass-input" id="contact-name"
+                                    placeholder="Tran Dang Gia Nghia" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small" data-i18n="contact.email">Email
+                                    Address</label>
+                                <input type="email" class="form-control glass-input" id="contact-email"
+                                    placeholder="example@gmail.com" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label text-muted small" data-i18n="contact.message">Message</label>
+                                <textarea class="form-control glass-input" id="contact-msg" rows="5"
+                                    placeholder="How can we help you?" required></textarea>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-premium w-100 py-3 justify-content-center font-weight-bold"
+                                data-i18n="contact.send">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FAQ Accordion section -->
+    <section class="py-5" id="faq-section">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold">Frequently Asked Questions</h2>
+                <p class="text-muted">Quick answers to common inquiries from our travelers.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="accordion" id="faq-accordion-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Map Embed section -->
+    <section class="py-5 bg-opacity-5" style="background: var(--bg-glass);">
+        <div class="container" data-aos="fade-up">
+            <div class="glass-card p-0 overflow-hidden" style="height: 380px;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.8025539564264!2d108.2198083!3d16.0757276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142183060fb864b%3A0xc39f993d058c9735!2sKim%20Dong%20Secondary%20School!5e0!3m2!1sen!2svn!4v1700000000020!5m2!1sen!2svn"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top -->
+    <button id="back-to-top-btn" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="footer-logo" href="index.html">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <span>Dream Travel</span>
+                    </a>
+                    <p class="footer-text" data-i18n="footer.about.text">Dream Travel provides premium travel services,
+                        hotels, and custom travel itineraries backed by advanced recommendation AI.</p>
+                    <div class="social-icons-footer">
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.services">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                        <li><a href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.support">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-i18n="nav.contact">Contact Us</a></li>
+                        <li><a href="about.html" data-i18n="nav.about">About Creator</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-6">
+                    <h5 class="footer-heading">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.policy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <span class="footer-copyright">&copy; 2026 Dream Travel. Created by Trần Đăng Gia Nghĩa (THCS Kim
+                Đồng).</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+    <!-- Core App Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai-chat.js"></script>
+
+    <!-- FAQ renderer & support logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFAQs();
+            setupContactForm();
+            document.addEventListener('languageChanged', renderFAQs);
+        });
+
+        function renderFAQs() {
+            const container = document.getElementById('faq-accordion-container');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            let faqHTML = '';
+            DREAM_TRAVEL_DATA.faqs.forEach((faq, idx) => {
+                const question = isVi ? faq.question_vi : faq.question_en;
+                const answer = isVi ? faq.answer_vi : faq.answer_en;
+                const showClass = idx === 0 ? 'show' : '';
+                const collapsedClass = idx === 0 ? '' : 'collapsed';
+
+                faqHTML += `
+                    <div class="accordion-item accordion-item-custom">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button accordion-button-custom ${collapsedClass}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${idx}" aria-expanded="${idx === 0}" aria-controls="collapse-${idx}">
+                                ${question}
+                            </button>
+                        </h2>
+                        <div id="collapse-${idx}" class="accordion-collapse collapse ${showClass}" data-bs-parent="#faq-accordion-container">
+                            <div class="accordion-body text-muted p-4 mt-2 rounded-3 bg-opacity-5" style="background: var(--bg-glass); font-size: 0.9rem; border: 1px solid var(--border-glass);">
+                                ${answer}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = faqHTML;
+        }
+
+        function setupContactForm() {
+            const form = document.getElementById('contact-support-form');
+            if (!form) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert(LanguageEngine.currentLang === 'vi' ? 'Gửi tin nhắn thành công! Chúng tôi sẽ phản hồi trong 24 giờ.' : 'Message sent successfully! We will respond within 24 hours.');
+                form.reset();
+            });
+        }
+    </script>
+</body>
+
+</html>

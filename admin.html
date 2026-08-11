@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer -->
+    <script src="js/darkmode.js"></script>
+    <style>
+        /* Admin-specific styles */
+        .admin-container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 0;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar .sidebar-brand {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-sidebar .nav-link {
+            padding: 0.875rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .admin-sidebar .nav-link:hover {
+            background: var(--bg-hover);
+            color: var(--primary-accent);
+            border-left-color: var(--primary-accent);
+        }
+
+        .admin-sidebar .nav-link.active {
+            background: var(--bg-hover);
+            color: var(--primary-accent);
+            border-left-color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .admin-main {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-accent);
+            background: var(--bg-hover);
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .admin-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section h3 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .users-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            margin-bottom: 0;
+            border-collapse: collapse;
+        }
+
+        .users-table thead th {
+            background: var(--bg-hover);
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+        }
+
+        .users-table tbody td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .users-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .btn-group-sm .btn {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.5rem;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-input {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+        }
+
+        .filter-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            background: var(--input-bg);
+        }
+
+        .toast-notification {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 260px;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .admin-main {
+                padding: 1rem;
+            }
+
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-card .stat-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Pagination styling */
+        .pagination {
+            gap: 0.5rem;
+        }
+
+        .page-link {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover:not(.active):not(.disabled) {
+            background: var(--bg-hover);
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .page-item.active .page-link {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: white;
+        }
+
+        .page-item.disabled .page-link {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal overrides */
+        .glass-modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-modal-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .glass-modal-header .btn-close {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="page-fade-transition">
+
+    <!-- Admin Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-shield-halved" style="color: var(--primary-accent);"></i>
+                <span>Admin Panel</span>
+            </div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-section="users">
+                    <i class="fa-solid fa-users"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="#" class="nav-link" data-section="activity">
+                    <i class="fa-solid fa-history"></i>
+                    <span>Activity Log</span>
+                </a>
+                <a href="#" class="nav-link" data-section="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <hr style="margin: 1rem 0; border: none; border-top: 1px solid var(--border-color);">
+                <a href="#" class="nav-link" id="admin-back-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Dream Travel</span>
+                </a>
+                <a href="#" class="nav-link" id="admin-logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <div class="admin-header">
+                <div>
+                    <h1 class="h2 font-weight-bold mb-1">Admin Dashboard</h1>
+                    <p class="text-muted mb-0">Manage users and system activity</p>
+                </div>
+                <div id="admin-navbar">
+                    <div class="d-flex align-items-center gap-2">
+                        <div style="text-align: right;">
+                            <div class="fw-bold small" data-admin-name>Admin Name</div>
+                            <div class="text-muted small" data-admin-email>admin@email.com</div>
+                        </div>
+                        <div class="avatar-mini" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">A</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section">
+                <h2 class="mb-4" style="font-size: 1.5rem; font-weight: bold;">Dashboard Overview</h2>
+                
+                <div class="row g-3 mb-5">
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-users" style="color: var(--primary-accent);"></i></div>
+                            <div class="stat-number" id="total-users">0</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-circle-check" style="color: #27ae60;"></i></div>
+                            <div class="stat-number" id="active-users">0</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-ban" style="color: #e74c3c;"></i></div>
+                            <div class="stat-number" id="banned-users">0</div>
+                            <div class="stat-label">Banned Users</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-eye-slash" style="color: #f39c12;"></i></div>
+                            <div class="stat-number" id="hidden-users">0</div>
+                            <div class="stat-label">Hidden Users</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-shield-halved" style="color: #3498db;"></i></div>
+                            <div class="stat-number" id="admin-count">0</div>
+                            <div class="stat-label">Admins</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-star" style="color: #9b59b6;"></i></div>
+                            <div class="stat-number" id="new-users">0</div>
+                            <div class="stat-label">New (7 Days)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Admin Activity -->
+                <div class="admin-section">
+                    <h3><i class="fa-solid fa-history"></i> Recent Admin Activity</h3>
+                    <div id="recent-activity-list">
+                        <p class="text-muted text-center py-4">No recent activity</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users-section" class="content-section" style="display: none;">
+                <h2 class="mb-4" style="font-size: 1.5rem; font-weight: bold;">User Management</h2>
+                
+                <div class="admin-section">
+                    <!-- Filters -->
+                    <div class="filters-row">
+                        <input type="text" class="filter-input" id="users-search" placeholder="Search by email or name...">
+                        <select class="filter-input" id="filter-role">
+                            <option value="">All Roles</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <select class="filter-input" id="filter-status">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="banned">Banned</option>
+                            <option value="hidden">Hidden</option>
+                        </select>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="users-table-wrapper">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">User</th>
+                                    <th style="width: 12%;">Role</th>
+                                    <th style="width: 12%;">Status</th>
+                                    <th style="width: 18%;">Created</th>
+                                    <th style="width: 18%;">Last Login</th>
+                                    <th style="width: 10%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="users-pagination" class="mt-4"></div>
+                </div>
+            </section>
+
+            <!-- Activity Log Section -->
+            <section id="activity-section" class="content-section" style="display: none;">
+                <h2 class="mb-4" style="font-size: 1.5rem; font-weight: bold;">Admin Activity Log</h2>
+                
+                <div class="admin-section">
+                    <div id="activity-log-list">
+                        <p class="text-muted text-center py-4">No activity recorded</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section" style="display: none;">
+                <h2 class="mb-4" style="font-size: 1.5rem; font-weight: bold;">Settings</h2>
+                
+                <div class="admin-section">
+                    <p class="text-muted">Settings coming soon...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+
+    <script>
+        // Section navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.dataset.section;
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show corresponding section
+                document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+                
+                const sectionMap = {
+                    'dashboard': 'dashboard-section',
+                    'users': 'users-section',
+                    'activity': 'activity-section',
+                    'settings': 'settings-section'
+                };
+                
+                if (sectionMap[section]) {
+                    document.getElementById(sectionMap[section]).style.display = 'block';
+                }
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    document.getElementById('admin-sidebar').classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile sidebar toggle
+        const adminSidebar = document.getElementById('admin-sidebar');
+        if (window.innerWidth <= 768) {
+            const sidebarToggle = document.createElement('button');
+            sidebarToggle.className = 'btn btn-link position-fixed';
+            sidebarToggle.style.bottom = '20px';
+            sidebarToggle.style.right = '20px';
+            sidebarToggle.style.zIndex = '999';
+            sidebarToggle.innerHTML = '<i class="fa-solid fa-bars fa-2x"></i>';
+            sidebarToggle.addEventListener('click', () => {
+                adminSidebar.classList.toggle('active');
+            });
+            document.body.appendChild(sidebarToggle);
+        }
+    </script>
+</body>
+</html>

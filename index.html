@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Dream Travel - Premium AI-powered tourism platform featuring custom itineraries, luxury stays, and curated global packages.">
+    <title>Dream Travel - AI Powered Tourism</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Swiper Slider CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Animate On Scroll (AOS) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer (FOUC avoidance) -->
+    <script src="js/darkmode.js"></script>
+    <!-- Add these inside your <head> tag -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold text-accent-color">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom active" href="index.html"
+                            data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html"
+                            data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html"
+                            data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="hotels.html" data-i18n="nav.hotels">Hotels</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link-custom" href="#ai-planner-section"
+                            data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="gallery.html"
+                            data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="about.html" data-i18n="nav.about">About</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html"
+                            data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i
+                            class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn"
+                        title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
+                            aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
+                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
+                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <!-- Loaded dynamically from auth.js -->
+                        <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <!-- Floating details -->
+        <i class="fa-solid fa-plane floating-icon float-item-1 hero-icon-plane"></i>
+        <i class="fa-solid fa-compass floating-icon float-item-2 hero-icon-compass"></i>
+        <i class="fa-solid fa-earth-americas floating-icon float-item-1 hero-icon-earth"></i>
+        <i class="fa-solid fa-suitcase-rolling floating-icon float-item-2 hero-icon-suitcase"></i>
+
+        <!-- Video Background -->
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source
+                src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c05cba3d789e13e4b7e1901869e5d4aa&profile_id=165&oauth2_token_id=57447761"
+                type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content" data-aos="fade-up">
+            <h1 class="hero-title" data-i18n="hero.title">Dream Your Next Adventure</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Explore premium destinations, custom smart packages, and
+                hotels designed for your dream vacation.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="destinations.html" class="btn-premium py-3 px-4 pulse-btn" data-i18n="hero.btn.explore">Explore
+                    Now</a>
+                <button class="btn-premium-outline py-3 px-4"
+                    onclick="document.getElementById('ai-chat-toggle').click();" data-i18n="hero.btn.talkai">Talk With
+                    AI</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Swiper Destinations Slider Section -->
+    <section class="section-padding py-5">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold" data-i18n="destinations.title">Popular Destinations</h2>
+                <p class="text-muted" data-i18n="destinations.subtitle">Handpicked global spots known for beauty,
+                    hospitality, and rich experiences.</p>
+            </div>
+
+            <div class="swiper" id="destinations-swiper">
+                <div class="swiper-wrapper" id="swiper-dest-wrapper">
+                    <!-- Rendered dynamically -->
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination swiper-pagination-dest mt-4"></div>
+                <!-- Navigation -->
+                <div class="swiper-button-prev swiper-button-prev-dest"></div>
+                <div class="swiper-button-next swiper-button-next-dest"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Highlights Grid (6 Destinations) -->
+    <section class="section-padding bg-opacity-5 bg-glass-section">
+        <div class="container" data-aos="fade-up">
+            <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
+                <div>
+                    <h2 class="font-weight-bold mb-1" data-i18n="destinations.title">Curated Favorites</h2>
+                    <p class="text-muted mb-0" data-i18n="destinations.subtitle">Handpicked global spots known for
+                        beauty, hospitality, and rich experiences.</p>
+                </div>
+                <a href="destinations.html" class="btn-premium-outline" data-i18n="hero.btn.explore">View All</a>
+            </div>
+
+            <div class="row g-4" id="home-dest-grid">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Trip Planner Dashboard -->
+    <section id="ai-planner-section" class="section-padding">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold text-gradient animated-gradient-text" data-i18n="aiplanner.title">
+                    Interactive AI Trip Planner</h2>
+                <p class="text-muted" data-i18n="aiplanner.subtitle">Let our smart system build your custom day-by-day
+                    travel timeline instantly.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="glass-card glass-shine p-4 mb-4">
+                        <form id="ai-planner-form" class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label text-muted small" data-i18n="aiplanner.label.budget">Max Budget
+                                    ($)</label>
+                                <input type="number" class="form-control glass-input" id="planner-budget" min="100"
+                                    value="1200" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-muted small" data-i18n="aiplanner.label.country">Select
+                                    Country</label>
+                                <select class="form-select glass-input" id="planner-country" required>
+                                    <option value="Vietnam" data-i18n="filter.vietnam">Vietnam</option>
+                                    <option value="Japan" data-i18n="filter.japan">Japan</option>
+                                    <option value="France" data-i18n="filter.france">France</option>
+                                    <option value="Switzerland" data-i18n="filter.switzerland">Switzerland</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label text-muted small" data-i18n="aiplanner.label.days">Duration
+                                    (Days)</label>
+                                <input type="number" class="form-control glass-input" id="planner-days" min="1" max="15"
+                                    value="5" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label text-muted small" data-i18n="aiplanner.label.style">Travel
+                                    Style</label>
+                                <select class="form-select glass-input" id="planner-style" required>
+                                    <option value="adventure" data-i18n="aiplanner.style.adventure">Adventure</option>
+                                    <option value="luxury" data-i18n="aiplanner.style.luxury">Luxury</option>
+                                    <option value="relaxing" data-i18n="aiplanner.style.relaxing">Relaxing</option>
+                                    <option value="budget" data-i18n="aiplanner.style.budget">Budget</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label text-muted small"
+                                    data-i18n="aiplanner.label.people">People</label>
+                                <input type="number" class="form-control glass-input" id="planner-people" min="1"
+                                    value="2" required>
+                            </div>
+                            <div class="col-12 mt-4 text-center">
+                                <button type="submit" class="btn-premium px-5 py-3 pulse-btn"
+                                    data-i18n="aiplanner.btn.generate">Generate Itinerary</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Timeline Results -->
+                    <div id="planner-results" class="glass-card d-none">
+                        <h4 class="font-weight-bold mb-4 text-teal" data-i18n="aiplanner.result.title">Your Custom
+                            Travel Itinerary</h4>
+                        <div id="planner-timeline">
+                            <!-- Populated by ai-chat.js -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Highlight -->
+    <section class="section-padding bg-opacity-5 bg-glass-section">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold" data-i18n="packages.title">Exclusive Travel Packages</h2>
+                <p class="text-muted" data-i18n="packages.subtitle">Complete worry-free packages offering best pricing,
+                    flight options, and stays.</p>
+            </div>
+
+            <div class="row g-4" id="home-packages-grid">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotels Highlights -->
+    <section class="section-padding">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold" data-i18n="hotels.title">Premium Hotels & Resorts</h2>
+                <p class="text-muted" data-i18n="hotels.subtitle">Indulge in maximum luxury and spectacular locations.
+                </p>
+            </div>
+
+            <div class="row g-4" id="home-hotels-grid">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Panel -->
+    <section class="section-padding bg-opacity-5 bg-glass-section">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-4 text-center">
+                <div class="col-md-4 col-6 col-lg-2.4">
+                    <div class="stat-number" data-target="30">0</div>
+                    <p class="text-muted small" data-i18n="stats.countries">Countries</p>
+                </div>
+                <div class="col-md-4 col-6 col-lg-2.4">
+                    <div class="stat-number" data-target="15000">0</div>
+                    <p class="text-muted small" data-i18n="stats.travelers">Happy Travelers</p>
+                </div>
+                <div class="col-md-4 col-6 col-lg-2.4">
+                    <div class="stat-number" data-target="450">0</div>
+                    <p class="text-muted small" data-i18n="stats.hotels">Hotels Partnered</p>
+                </div>
+                <div class="col-md-4 col-6 col-lg-2.4">
+                    <div class="stat-number" data-target="2500">0</div>
+                    <p class="text-muted small" data-i18n="stats.flights">Flights Booked</p>
+                </div>
+                <div class="col-md-4 col-6 col-lg-2.4">
+                    <div class="stat-number" data-target="1800">0</div>
+                    <p class="text-muted small" data-i18n="stats.tours">Tours Completed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Slider Section -->
+    <section class="section-padding">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold" data-i18n="testimonials.title">What Our Travelers Say</h2>
+                <p class="text-muted" data-i18n="testimonials.subtitle">Trusted reviews and expressions from
+                    globetrotters around the world.</p>
+            </div>
+
+            <div class="swiper" id="testimonials-swiper">
+                <div class="swiper-wrapper" id="swiper-testimonials-wrapper">
+                    <!-- Rendered dynamically -->
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination swiper-pagination-test mt-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me (Spotlight Card) Section -->
+    <section class="section-padding bg-opacity-5 bg-glass-section">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold text-gradient animated-gradient-text" data-i18n="creator.title">Website
+                    Developer</h2>
+                <p class="text-muted">Meet the developer behind this digital experience.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="glass-card glass-shine p-4">
+                        <div class="row align-items-center g-4">
+                            <div class="col-md-4 text-center">
+                                <div class="position-relative d-inline-block">
+                                    <div
+                                        class="rounded-circle overflow-hidden border border-3 border-teal profile-avatar-container">
+                                        <!-- Profile Avatar placeholder -->
+                                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
+                                            alt="Avatar" class="profile-avatar-img">
+                                    </div>
+                                    <span
+                                        class="position-absolute bottom-0 end-0 bg-success rounded-circle profile-status-badge"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h4 class="font-weight-bold mb-1">Trần Đăng Gia Nghĩa</h4>
+                                <p class="text-teal font-weight-bold small mb-2"><i class="fa-solid fa-code me-1"></i>
+                                    Fullstack Web & AI Hobbyist</p>
+                                <p class="text-muted small mb-3" data-i18n="creator.desc">"I am a student passionate
+                                    about programming, web development, artificial intelligence, and creating modern
+                                    digital experiences."</p>
+
+                                <div class="row text-muted small g-2 mb-3">
+                                    <div class="col-6"><strong>Age:</strong> 14</div>
+                                    <div class="col-6"><strong>School:</strong> THCS Kim Đồng</div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h6 class="small font-weight-bold text-muted" data-i18n="creator.skills">Skills</h6>
+                                    <div class="d-flex flex-column gap-2">
+                                        <div>
+                                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                                <span>HTML5/CSS3/Bootstrap 5</span><span>95%</span>
+                                            </div>
+                                            <div class="progress skill-progress-bar">
+                                                <div class="progress-bar bg-teal w-95-pct"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                                <span>Vanilla JavaScript & DOM</span><span>90%</span>
+                                            </div>
+                                            <div class="progress skill-progress-bar">
+                                                <div class="progress-bar bg-primary w-90-pct"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="about.html" class="btn-premium small" data-i18n="creator.contact">Contact
+                                    Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section-padding bg-opacity-5 newsletter-section">
+        <div class="container text-center" data-aos="fade-up">
+            <div class="max-w-600 mx-auto">
+                <i class="fa-regular fa-paper-plane text-teal fs-1 mb-4"></i>
+                <h3 class="font-weight-bold" data-i18n="newsletter.title">Subscribe to Newsletter</h3>
+                <p class="text-muted mb-4" data-i18n="newsletter.subtitle">Get weekly updates on flight discounts,
+                    itinerary updates, and secret packages.</p>
+                <form id="newsletter-form" class="input-group max-w-500 mx-auto">
+                    <input type="email" class="form-control glass-input" id="newsletter-email"
+                        placeholder="example@gmail.com" required>
+                    <button type="submit" class="btn btn-premium px-4" data-i18n="newsletter.btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top -->
+    <button id="back-to-top-btn" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="footer-logo" href="index.html">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <span>Dream Travel</span>
+                    </a>
+                    <p class="footer-text" data-i18n="footer.about.text">Dream Travel provides premium travel services,
+                        hotels, and custom travel itineraries backed by advanced recommendation AI.</p>
+                    <div class="social-icons-footer">
+                        <a href="https://facebook.com" class="social-icon-btn" target="_blank"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://github.com" class="social-icon-btn" target="_blank"><i
+                                class="fa-brands fa-github"></i></a>
+                        <a href="https://instagram.com" class="social-icon-btn" target="_blank"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="https://tiktok.com" class="social-icon-btn" target="_blank"><i
+                                class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.services">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                        <li><a href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.support">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-i18n="nav.contact">Contact Us</a></li>
+                        <li><a href="about.html" data-i18n="nav.about">About Creator</a></li>
+                        <li><a href="contact.html#faq-section">FAQ Help</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-6">
+                    <h5 class="footer-heading">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.policy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span class="footer-copyright">&copy; 2026 Dream Travel. Created by Trần Đăng Gia Nghĩa (THCS Kim Đồng).
+                    All Rights Reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- AOS Scroll Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+    </script>
+    <!-- Core App Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai-chat.js"></script>
+    <script src="js/slider.js?v=2"></script>
+
+    <!-- Homepage Dynamic Renderer Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHeroSwiper();
+            renderFeaturedDestinations();
+            renderHighlightedPackages();
+            renderHighlightedHotels();
+            renderTestimonials();
+            initStatisticsCounter();
+
+            // Listen for currency and language changes to update prices and descriptors
+            document.addEventListener('currencyChanged', () => {
+                renderFeaturedDestinations();
+                renderHighlightedPackages();
+                renderHighlightedHotels();
+                renderHeroSwiper();
+            });
+            document.addEventListener('languageChanged', () => {
+                renderFeaturedDestinations();
+                renderHighlightedPackages();
+                renderHighlightedHotels();
+                renderHeroSwiper();
+            });
+
+            // Newsletter submit handler
+            const newsletterForm = document.getElementById('newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert(LanguageEngine.currentLang === 'vi' ? 'Đăng ký thành công! Cảm ơn bạn.' : 'Successfully subscribed! Thank you.');
+                    newsletterForm.reset();
+                });
+            }
+        });
+
+        // 8 Slides destinations carousel
+        function renderHeroSwiper() {
+            const swiperWrapper = document.getElementById('swiper-dest-wrapper');
+            if (!swiperWrapper) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            // Selected 8 spots
+            const targetIds = ['paris', 'tokyo', 'bali', 'interlaken', 'iceland', 'maldives', 'marinabay', 'halong'];
+            const slidesData = DREAM_TRAVEL_DATA.destinations.filter(d => targetIds.includes(d.id));
+
+            let slidesHTML = '';
+            slidesData.forEach(dest => {
+                const name = isVi ? dest.name_vi : dest.name_en;
+                const country = isVi ? dest.country_vi : dest.country_en;
+                const desc = isVi ? dest.description_vi : dest.description_en;
+                const formattedPrice = MainApp.formatPrice(dest.price);
+
+                slidesHTML += `
+                    <div class="swiper-slide">
+                        <div class="dest-slide-card img-hover-zoom">
+                            <img src="${dest.image}" alt="${name}">
+                            <div class="dest-slide-overlay">
+                                <span class="badge bg-primary mb-2">${country}</span>
+                                <h4 class="font-weight-bold mb-1">${name}</h4>
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="stars-rating"><i class="fa-solid fa-star"></i> ${dest.rating}</span>
+                                    <strong class="text-teal fs-5">${formattedPrice}</strong>
+                                </div>
+                                <p class="small text-white-50 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${desc}</p>
+                                <button class="btn btn-premium btn-sm w-100 py-2 justify-content-center" onclick="openBookingModal('${name}', ${dest.price}, 'destination')">
+                                    <span data-i18n="packages.booknow">Book Now</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            swiperWrapper.innerHTML = slidesHTML;
+            if (window.initializeDreamTravelSliders) {
+                window.initializeDreamTravelSliders();
+            }
+        }
+
+        // Top 6 Curated Destination Cards
+        function renderFeaturedDestinations() {
+            const grid = document.getElementById('home-dest-grid');
+            if (!grid) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+            const favorites = getFavorites();
+
+            let gridHTML = '';
+            // Render first 6 items
+            DREAM_TRAVEL_DATA.destinations.slice(0, 6).forEach(dest => {
+                const name = isVi ? dest.name_vi : dest.name_en;
+                const country = isVi ? dest.country_vi : dest.country_en;
+                const weatherStr = isVi ? dest.weather_vi : dest.weather;
+                const formattedPrice = MainApp.formatPrice(dest.price);
+                const isFav = favorites.includes(dest.id);
+
+                gridHTML += `
+                    <div class="col-lg-4 col-md-6">
+                        <div class="glass-card p-0 overflow-hidden height-100 d-flex flex-column h-100">
+                            <div class="img-hover-zoom position-relative" style="height: 220px;">
+                                <img src="${dest.image}" alt="${name}">
+                                <button class="btn-control position-absolute" style="top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;" onclick="event.stopPropagation(); handleFavToggle('${dest.id}', this)" title="Favorite">
+                                    <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart text-danger"></i>
+                                </button>
+                                <span class="position-absolute bg-dark text-white rounded-pill px-3 py-1 text-xs font-weight-bold" style="bottom: 15px; left: 15px; background-color: rgba(15, 23, 42, 0.7) !important;">
+                                    <i class="fa-solid fa-cloud-sun me-1"></i> ${weatherStr}
+                                </span>
+                            </div>
+                            <div class="p-4 flex-grow-1 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-teal font-weight-bold small">${country}</span>
+                                    <span class="stars-rating"><i class="fa-solid fa-star"></i> ${dest.rating}</span>
+                                </div>
+                                <h5 class="font-weight-bold mb-3">${name}</h5>
+                                <p class="text-muted small mb-4 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                                    ${isVi ? dest.description_vi : dest.description_en}
+                                </p>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
+                                    <div>
+                                        <span class="small text-muted d-block" data-i18n="destinations.price_from">From</span>
+                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
+                                    </div>
+                                    <a href="destinations.html?id=${dest.id}" class="btn-premium-outline btn-sm py-2 px-3" data-i18n="destinations.viewdetails">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = gridHTML;
+        }
+
+        // Favorites handler on home
+        function handleFavToggle(id, btn) {
+            const added = toggleFavorite(id);
+            const icon = btn.querySelector('i');
+            icon.className = added ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart text-danger';
+        }
+
+        // Travel packages highlights
+        function renderHighlightedPackages() {
+            const container = document.getElementById('home-packages-grid');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            let pkgHTML = '';
+            DREAM_TRAVEL_DATA.packages.slice(0, 3).forEach(pkg => {
+                const name = isVi ? pkg.name_vi : pkg.name_en;
+                const desc = isVi ? pkg.description_vi : pkg.description_en;
+                const formattedPrice = MainApp.formatPrice(pkg.price);
+
+                pkgHTML += `
+                    <div class="col-md-4">
+                        <div class="glass-card h-100 d-flex flex-column glass-shine">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge bg-danger rounded-pill px-3 py-2">-${pkg.discount_pct}% OFF</span>
+                                <span class="stars-rating"><i class="fa-solid fa-star"></i> ${pkg.rating}</span>
+                            </div>
+                            <h5 class="font-weight-bold mb-2">${name}</h5>
+                            <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
+                            
+                            <ul class="list-unstyled mb-4 small text-muted d-flex flex-column gap-2">
+                                <li><i class="fa-regular fa-calendar-check me-2 text-teal"></i> <strong>${pkg.days}</strong> ${isVi ? 'Ngày' : 'Days'}</li>
+                                <li><i class="fa-solid fa-plane-up me-2 text-teal"></i> ${isVi ? 'Vé máy bay khứ hồi' : 'Flight tickets included'}</li>
+                                <li><i class="fa-solid fa-hotel me-2 text-teal"></i> ${isVi ? 'Khách sạn lưu trú sang trọng' : 'Hotel room included'}</li>
+                                <li><i class="fa-solid fa-cookie-bite me-2 text-teal"></i> ${isVi ? 'Bữa sáng buffet miễn phí' : 'Breakfast buffet included'}</li>
+                            </ul>
+                            
+                            <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
+                                <strong class="fs-4 text-teal">${formattedPrice}</strong>
+                                <button class="btn btn-premium btn-sm py-2 px-3" onclick="openBookingModal('${name}', ${pkg.price}, 'package')" data-i18n="packages.booknow">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = pkgHTML;
+        }
+
+        // Hotels highlights
+        function renderHighlightedHotels() {
+            const container = document.getElementById('home-hotels-grid');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            let hotelHTML = '';
+            DREAM_TRAVEL_DATA.hotels.slice(0, 3).forEach(hotel => {
+                const location = isVi ? hotel.location_vi : hotel.location_en;
+                const desc = isVi ? hotel.description_vi : hotel.description_en;
+                const formattedPrice = MainApp.formatPrice(hotel.price);
+
+                let starIcons = '';
+                for (let i = 0; i < hotel.stars; i++) {
+                    starIcons += '<i class="fa-solid fa-star text-warning"></i> ';
+                }
+
+                hotelHTML += `
+                    <div class="col-md-4">
+                        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
+                            <div class="img-hover-zoom" style="height: 200px;">
+                                <img src="${hotel.image}" alt="${hotel.name}">
+                            </div>
+                            <div class="p-4 flex-grow-1 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="stars-rating">${starIcons}</span>
+                                    <span class="badge bg-opacity-10 bg-primary text-teal px-2 py-1 text-xs"><i class="fa-solid fa-location-dot me-1"></i> ${location}</span>
+                                </div>
+                                <h5 class="font-weight-bold mb-2">${hotel.name}</h5>
+                                <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
+                                    <div>
+                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
+                                        <span class="small text-muted" data-i18n="hotels.pernight">/ night</span>
+                                    </div>
+                                    <button class="btn btn-premium-outline btn-sm py-2 px-3" onclick="openBookingModal('${hotel.name}', ${hotel.price}, 'hotel')" data-i18n="hotels.book">Book Room</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = hotelHTML;
+        }
+
+        // Testimonials dynamic render
+        function renderTestimonials() {
+            const container = document.getElementById('swiper-testimonials-wrapper');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            let testHTML = '';
+            DREAM_TRAVEL_DATA.testimonials.forEach(test => {
+                const role = isVi ? test.role_vi : test.role_en;
+                const text = isVi ? test.text_vi : test.text_en;
+                let stars = '';
+                for (let i = 0; i < test.rating; i++) {
+                    stars += '<i class="fa-solid fa-star text-warning"></i> ';
+                }
+
+                testHTML += `
+                    <div class="swiper-slide h-auto">
+                        <div class="glass-card h-100 d-flex flex-column">
+                            <div class="mb-3">${stars}</div>
+                            <p class="text-muted small mb-4 flex-grow-1 italic">"${text}"</p>
+                            <div class="d-flex align-items-center gap-3 border-top border-glass pt-3 mt-auto">
+                                <img src="${test.avatar}" alt="${test.name}" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                                <div>
+                                    <h6 class="mb-0 font-weight-bold text-sm">${test.name}</h6>
+                                    <span class="small text-muted" style="font-size: 0.75rem;">${role}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = testHTML;
+            if (window.initializeDreamTravelSliders) {
+                window.initializeDreamTravelSliders();
+            } else if (window.SliderService) {
+                window.SliderService.initTestimonialsSlider();
+            }
+        }
+
+        // Stats animated counter loader
+        function initStatisticsCounter() {
+            const counterElements = document.querySelectorAll('.stat-number');
+
+            const runCounter = () => {
+                counterElements.forEach(el => {
+                    const target = parseInt(el.getAttribute('data-target'));
+                    const speed = 100; // lower is slower
+                    const increment = target / speed;
+                    let count = 0;
+
+                    const updateCount = () => {
+                        count += increment;
+                        if (count < target) {
+                            el.innerText = Math.floor(count) + '+';
+                            setTimeout(updateCount, 15);
+                        } else {
+                            el.innerText = target + '+';
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            // Use intersection observer to run only when scrolled to stats
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        runCounter();
+                        observer.disconnect(); // run once
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const firstStat = document.querySelector('.stat-number');
+            if (firstStat) observer.observe(firstStat.parentElement.parentElement);
+        }
+    </script>
+</body>
+
+</html>

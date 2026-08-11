@@ -1,0 +1,187 @@
+/* Custom Animations for Dream Travel */
+
+/* Floating Icons animation */
+@keyframes float-gentle-1 {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+@keyframes float-gentle-2 {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(-8deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.float-item-1 {
+    animation: float-gentle-1 6s ease-in-out infinite;
+}
+
+.float-item-2 {
+    animation: float-gentle-2 8s ease-in-out infinite;
+}
+
+/* Glass shine reflection transition */
+.glass-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 30%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0.2) 70%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    transition: none;
+    pointer-events: none;
+}
+
+.glass-shine:hover::after {
+    left: 150%;
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Button pulse ripple */
+@keyframes pulse-accent {
+    0% {
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(6, 182, 212, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+    }
+}
+
+.pulse-btn {
+    animation: pulse-accent 2s infinite;
+}
+
+/* Text Typing simulation */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--primary-accent);
+    }
+}
+
+.typing-cursor {
+    border-right: 2px solid var(--primary-accent);
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+/* Hover Lift transitions */
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow);
+    border-color: var(--primary-accent);
+}
+
+/* Page fade transition overlays */
+.fade-in-up-custom {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Chat bubble entrance */
+@keyframes chat-message-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.chat-message-anim {
+    animation: chat-message-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Image zoom on hover */
+.img-hover-zoom {
+    overflow: hidden;
+    position: relative;
+    border-radius: inherit;
+}
+
+.img-hover-zoom img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-hover-zoom:hover img {
+    transform: scale(1.1);
+}
+
+/* Background animated gradient */
+@keyframes gradient-bg {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animated-gradient-text {
+    background: linear-gradient(-45deg, var(--primary-accent), var(--secondary-accent), #06b6d4, #6366f1);
+    background-size: 300% 300%;
+    animation: gradient-bg 6s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

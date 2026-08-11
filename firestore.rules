@@ -1,0 +1,123 @@
+/* Firestore Security Rules for Dream Travel
+   ============================================
+   
+   This file contains the security rules for Firestore.
+   Deploy these rules via Firebase Console > Firestore > Rules
+   
+   IMPORTANT: Admin operations (ban, unban, delete, etc.) should be done through 
+   Cloud Functions with custom authentication checks, not through direct Firestore writes.
+*/
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default: deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ===== USERS COLLECTION =====
+    match /users/{userId} {
+      
+      // Users can read their own document
+      allow read: if request.auth.uid == userId;
+      
+      // Users can create their own document (during registration)
+      allow create: if request.auth.uid == userId 
+        && request.resource.data.uid == userId
+        && request.resource.data.role == 'user'  // Can only create as user, not admin
+        && request.resource.data.status == 'active';
+      
+      // Users can update certain fields in their own document
+      allow update: if request.auth.uid == userId
+        && request.resource.data.role == resource.data.role  // Cannot change role
+        && request.resource.data.status == resource.data.status  // Cannot change status
+        && request.resource.data.uid == resource.data.uid  // Cannot change UID
+        && (
+          // Can only update these fields:
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['displayName', 'photoURL', 'lastLogin'])
+        );
+      
+      // Users cannot delete their own account (only admins can)
+      allow delete: if false;
+    }
+
+    // ===== ADMIN LOGS COLLECTION =====
+    match /adminLogs/{logId} {
+      
+      // Only admins can read admin logs
+      allow read: if isAdmin(request.auth.uid);
+      
+      // Only Cloud Functions (via custom auth) can write admin logs
+      // This should be restricted to service accounts only
+      allow create: if request.auth.token.admin == true;
+      
+      // Admins and Cloud Functions can write logs
+      allow write: if isAdmin(request.auth.uid) || request.auth.token.admin == true;
+    }
+
+    // ===== HELPER FUNCTIONS =====
+    
+    // Check if user is admin
+    function isAdmin(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data.role == 'admin'
+        || request.auth.token.admin == true;
+    }
+
+    // Verify user is authenticated
+    function isAuthenticated() {
+      return request.auth.uid != null;
+    }
+
+    // Get user data
+    function getUserData(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data;
+    }
+  }
+}
+
+/* ===== DEPLOYMENT INSTRUCTIONS =====
+
+1. Open Firebase Console: https://console.firebase.google.com
+2. Go to: Project > Firestore Database > Rules
+3. Replace the rules with the content above
+4. Click "Publish"
+
+===== NEXT STEPS FOR PRODUCTION =====
+
+For production, you should also:
+
+1. Create Cloud Functions for admin operations:
+   - Ban User (bans user and logs action)
+   - Unban User
+   - Hide User
+   - Unhide User
+   - Delete User (deletes from Auth and Firestore)
+   
+   These functions should:
+   - Verify user is admin using Firebase Auth custom claims
+   - Validate the operation
+   - Perform the Firestore write
+   - Log to adminLogs
+   - Return success/error to client
+
+2. Add Firebase Custom Claims to admin users:
+   ```javascript
+   const admin = require('firebase-admin');
+   admin.auth().setCustomUserClaims(uid, {admin: true});
+   ```
+
+3. Sync admin.custom_claims to Firestore role field for easier querying
+
+===== SECURITY NOTES =====
+
+- Never trust client-side role checking for important operations
+- Custom Claims are more secure than Firestore role fields for auth
+- Firestore role field is used for query/UI purposes
+- All admin operations must go through Cloud Functions
+- Admin Functions must verify custom claims server-side
+- Never expose service account keys in frontend code
+
+*/

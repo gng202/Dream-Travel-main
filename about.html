@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about Dream Travel and the developer behind this digital project.">
+    <title>About Us - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate On Scroll (AOS) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer -->
+    <script src="js/darkmode.js"></script>
+</head>
+
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold" style="color: var(--primary-accent);">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html"
+                            data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html"
+                            data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="hotels.html" data-i18n="nav.hotels">Hotels</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html#ai-planner-section"
+                            data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="gallery.html"
+                            data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom active" href="about.html"
+                            data-i18n="nav.about">About</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html"
+                            data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i
+                            class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn"
+                        title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
+                            aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
+                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
+                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header text-center">
+        <div class="container" data-aos="fade-down">
+            <h1 class="font-weight-bold" data-i18n="nav.about">About Us</h1>
+            <p class="text-muted" data-i18n="footer.about.text">Dream Travel provides premium travel services, hotels,
+                and custom travel itineraries backed by advanced recommendation AI.</p>
+        </div>
+    </header>
+
+    <!-- Brand Philosophy Section -->
+    <section class="py-5">
+        <div class="container" data-aos="fade-up">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="about-img-box img-hover-zoom">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80"
+                            alt="Travel scenery" class="w-100">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="font-weight-bold mb-3">Redefining Modern Travel Experiences</h2>
+                    <p class="text-muted mb-4">We combine state-of-the-art Web UI design inspired by Apple's aesthetic
+                        with advanced AI logic to deliver custom travel planning services. Our mission is to make
+                        vacation organization instant, premium, and stress-free for everyone.</p>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="glass-card p-3">
+                                <i class="fa-solid fa-wand-magic-sparkles text-teal fs-4 mb-2"></i>
+                                <h6 class="font-weight-bold mb-1">AI Integrated</h6>
+                                <p class="text-muted small mb-0">Custom planning timelines built in seconds.</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="glass-card p-3">
+                                <i class="fa-solid fa-shield-halved text-teal fs-4 mb-2"></i>
+                                <h6 class="font-weight-bold mb-1">Secure & Trust</h6>
+                                <p class="text-muted small mb-0">Local storage authentication controls.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creator Spotlight Section -->
+    <section class="py-5 bg-opacity-5" style="background: var(--bg-glass);">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+                <h2 class="font-weight-bold text-gradient animated-gradient-text" data-i18n="creator.title">Website
+                    Developer</h2>
+                <p class="text-muted">Discover the student developer behind Dream Travel.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="glass-card glass-shine p-4">
+                        <div class="row align-items-center g-4">
+                            <!-- Left Avatar column -->
+                            <div class="col-md-4 text-center">
+                                <div class="position-relative d-inline-block">
+                                    <div class="rounded-circle overflow-hidden border border-3 border-teal"
+                                        style="width: 150px; height: 150px; margin: 0 auto;">
+                                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
+                                            alt="Tran Dang Gia Nghia"
+                                            style="width:100%; height:100%; object-fit:cover;">
+                                    </div>
+                                    <span class="position-absolute bottom-0 end-0 bg-success rounded-circle"
+                                        style="width: 22px; height: 22px; border: 3px solid var(--bg-color);"></span>
+                                </div>
+                            </div>
+                            <!-- Right Bio Details -->
+                            <div class="col-md-8">
+                                <h4 class="font-weight-bold mb-1">Trần Đăng Gia Nghĩa</h4>
+                                <p class="text-teal font-weight-bold small mb-3"><i class="fa-solid fa-code me-1"></i>
+                                    Student Developer</p>
+                                <p class="text-muted small mb-3" data-i18n="creator.desc">"I am a student passionate
+                                    about programming, web development, artificial intelligence, and creating modern
+                                    digital experiences."</p>
+
+                                <div class="row text-muted small g-2 mb-4">
+                                    <div class="col-6"><strong>Age:</strong> 14</div>
+                                    <div class="col-6"><strong>School:</strong> THCS Kim Đồng</div>
+                                    <div class="col-6"><strong>Email:</strong> gianghia.tkd@gmail.com</div>
+                                    <div class="col-6"><strong>GitHub:</strong> github.com/gianghia14</div>
+                                </div>
+
+                                <!-- Skill bars -->
+                                <div class="mb-4">
+                                    <h6 class="small font-weight-bold text-muted" data-i18n="creator.skills">Skills</h6>
+                                    <div class="d-flex flex-column gap-2">
+                                        <div>
+                                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                                <span>HTML5 / CSS3 / Vanilla CSS</span><span>95%</span>
+                                            </div>
+                                            <div class="progress" style="height: 6px; background: rgba(0,0,0,0.1);">
+                                                <div class="progress-bar bg-teal" style="width: 95%;"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                                <span>Vanilla Javascript & DOM API</span><span>90%</span>
+                                            </div>
+                                            <div class="progress" style="height: 6px; background: rgba(0,0,0,0.1);">
+                                                <div class="progress-bar bg-primary" style="width: 90%;"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                                <span>Bootstrap 5 & Layouts</span><span>85%</span>
+                                            </div>
+                                            <div class="progress" style="height: 6px; background: rgba(0,0,0,0.1);">
+                                                <div class="progress-bar bg-info" style="width: 85%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="contact.html" class="btn-premium w-100 justify-content-center py-2"
+                                    data-i18n="creator.contact">Contact Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top -->
+    <button id="back-to-top-btn" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="footer-logo" href="index.html">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <span>Dream Travel</span>
+                    </a>
+                    <p class="footer-text" data-i18n="footer.about.text">Dream Travel provides premium travel services,
+                        hotels, and custom travel itineraries backed by advanced recommendation AI.</p>
+                    <div class="social-icons-footer">
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.services">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                        <li><a href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.support">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-i18n="nav.contact">Contact Us</a></li>
+                        <li><a href="about.html" data-i18n="nav.about">About Creator</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-6">
+                    <h5 class="footer-heading">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.policy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <span class="footer-copyright">&copy; 2026 Dream Travel. Created by Trần Đăng Gia Nghĩa (THCS Kim
+                Đồng).</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+    <!-- Core App Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai-chat.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book premium hotels and luxury resorts. Filter by star ratings and locations easily on Dream Travel.">
+    <title>Hotels - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate On Scroll (AOS) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer -->
+    <script src="js/darkmode.js"></script>
+</head>
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold" style="color: var(--primary-accent);">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom active" href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html#ai-planner-section" data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="gallery.html" data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="about.html" data-i18n="nav.about">About</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn" title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('en'); return false;"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('vi'); return false;"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header text-center">
+        <div class="container" data-aos="fade-down">
+            <h1 class="font-weight-bold" data-i18n="nav.hotels">Hotels</h1>
+            <p class="text-muted" data-i18n="hotels.subtitle">Indulge in maximum luxury and spectacular locations.</p>
+        </div>
+    </header>
+
+    <!-- Filter bar -->
+    <section class="mb-5">
+        <div class="container" data-aos="fade-up">
+            <div class="glass-card p-4">
+                <div class="row g-3 align-items-center">
+                    <!-- City search -->
+                    <div class="col-md-5 col-12">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--input-border); border-radius: 12px 0 0 12px;"><i class="fa-solid fa-hotel"></i></span>
+                            <input type="text" class="form-control glass-input border-start-0" id="hotel-search" placeholder="Search hotels by name or location...">
+                        </div>
+                    </div>
+                    
+                    <!-- Stars filters -->
+                    <div class="col-md-7 col-12">
+                        <div class="d-flex gap-2 flex-wrap justify-content-md-end align-items-center">
+                            <span class="small text-muted me-2 font-weight-bold">Filter Rating:</span>
+                            <button class="rating-badge-btn active" data-stars="all">All Stars</button>
+                            <button class="rating-badge-btn" data-stars="5">
+                                5 <i class="fa-solid fa-star text-warning"></i>
+                            </button>
+                            <button class="rating-badge-btn" data-stars="4">
+                                4 <i class="fa-solid fa-star text-warning"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotels Grid -->
+    <main class="mb-5">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-4" id="hotels-grid">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Top -->
+    <button id="back-to-top-btn" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="footer-logo" href="index.html">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <span>Dream Travel</span>
+                    </a>
+                    <p class="footer-text" data-i18n="footer.about.text">Dream Travel provides premium travel services, hotels, and custom travel itineraries backed by advanced recommendation AI.</p>
+                    <div class="social-icons-footer">
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.services">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                        <li><a href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.support">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-i18n="nav.contact">Contact Us</a></li>
+                        <li><a href="about.html" data-i18n="nav.about">About Creator</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-6">
+                    <h5 class="footer-heading">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.policy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <span class="footer-copyright">&copy; 2026 Dream Travel. Created by Trần Đăng Gia Nghĩa (THCS Kim Đồng).</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+    <!-- Core App Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai-chat.js"></script>
+
+    <!-- Hotels filter rendering script -->
+    <script>
+        let starFilter = 'all';
+        let searchQuery = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHotels();
+            setupHotelFilters();
+
+            // Re-render on currency/language updates
+            document.addEventListener('currencyChanged', renderHotels);
+            document.addEventListener('languageChanged', renderHotels);
+        });
+
+        function setupHotelFilters() {
+            // Text Search
+            document.getElementById('hotel-search').addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                renderHotels();
+            });
+
+            // Star Rating buttons
+            const btns = document.querySelectorAll('.rating-badge-btn');
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    starFilter = btn.getAttribute('data-stars');
+                    renderHotels();
+                });
+            });
+        }
+
+        function renderHotels() {
+            const container = document.getElementById('hotels-grid');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            let list = DREAM_TRAVEL_DATA.hotels.filter(hotel => {
+                const name = hotel.name.toLowerCase();
+                const loc = isVi ? hotel.location_vi.toLowerCase() : hotel.location_en.toLowerCase();
+                const desc = isVi ? hotel.description_vi.toLowerCase() : hotel.description_en.toLowerCase();
+
+                // Stars filter
+                if (starFilter !== 'all' && hotel.stars !== parseInt(starFilter)) return false;
+
+                // Search query matching
+                if (searchQuery) {
+                    const matchName = name.includes(searchQuery);
+                    const matchLoc = loc.includes(searchQuery);
+                    const matchDesc = desc.includes(searchQuery);
+                    if (!matchName && !matchLoc && !matchDesc) return false;
+                }
+
+                return true;
+            });
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fa-solid fa-circle-exclamation text-muted fs-1 mb-3"></i>
+                        <p class="text-muted">${isVi ? 'Không tìm thấy khách sạn nào!' : 'No hotels found!'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            list.forEach(hotel => {
+                const location = isVi ? hotel.location_vi : hotel.location_en;
+                const desc = isVi ? hotel.description_vi : hotel.description_en;
+                const formattedPrice = MainApp.formatPrice(hotel.price);
+
+                let starIcons = '';
+                for (let i = 0; i < hotel.stars; i++) {
+                    starIcons += '<i class="fa-solid fa-star text-warning"></i> ';
+                }
+
+                html += `
+                    <div class="col-lg-4 col-md-6" data-aos="zoom-in">
+                        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
+                            <div class="img-hover-zoom" style="height: 220px;">
+                                <img src="${hotel.image}" alt="${hotel.name}">
+                            </div>
+                            <div class="p-4 flex-grow-1 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="stars-rating">${starIcons}</span>
+                                    <span class="badge bg-opacity-10 bg-primary text-teal px-2 py-1 text-xs"><i class="fa-solid fa-location-dot me-1"></i> ${location}</span>
+                                </div>
+                                <h5 class="font-weight-bold mb-2">${hotel.name}</h5>
+                                <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
+                                    <div>
+                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
+                                        <span class="small text-muted" data-i18n="hotels.pernight">/ night</span>
+                                    </div>
+                                    <button class="btn btn-premium py-2 px-3 text-sm" onclick="openBookingModal('${hotel.name}', ${hotel.price}, 'hotel')" data-i18n="hotels.book">Book Room</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            if (window.LanguageEngine) LanguageEngine.translatePage();
+        }
+    </script>
+</body>
+</html>

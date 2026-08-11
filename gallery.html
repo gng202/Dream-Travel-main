@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View historical structures, sandy beaches and natural wonders in our luxury masonry gallery.">
+    <title>Gallery - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate On Scroll (AOS) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer -->
+    <script src="js/darkmode.js"></script>
+    <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold text-accent-color">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html#ai-planner-section" data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom active" href="gallery.html" data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="about.html" data-i18n="nav.about">About</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn" title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('en'); return false;"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('vi'); return false;"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header text-center">
+        <div class="container" data-aos="fade-down">
+            <h1 class="font-weight-bold" data-i18n="nav.gallery">Gallery</h1>
+            <p class="text-muted" data-i18n="gallery.subtitle">Capturing magnificent landscapes, historical architectures, and ocean views.</p>
+        </div>
+    </header>
+
+    <!-- Category filters -->
+    <section class="mb-5">
+        <div class="container text-center" data-aos="fade-up">
+            <div class="d-flex gap-2 justify-content-center flex-wrap" id="gallery-filters">
+                <button class="filter-chip active" data-filter="all" data-i18n="filter.all">All Categories</button>
+                <button class="filter-chip" data-filter="nature">Nature</button>
+                <button class="filter-chip" data-filter="beaches">Beaches</button>
+                <button class="filter-chip" data-filter="cities">Cities</button>
+                <button class="filter-chip" data-filter="culture">Culture</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masonry Gallery -->
+    <main class="mb-5">
+        <div class="container" data-aos="fade-up">
+            <div class="masonry-grid" id="masonry-grid-container">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom JavaScript Lightbox Modal -->
+    <div class="lightbox-overlay" id="lightbox">
+        <div class="lightbox-btn lightbox-close" id="lightbox-close"><i class="fa-solid fa-xmark fs-4"></i></div>
+        <div class="lightbox-btn lightbox-prev" id="lightbox-prev"><i class="fa-solid fa-chevron-left fs-4"></i></div>
+        <img class="lightbox-img" id="lightbox-image" src="" alt="Expanded View">
+        <div class="lightbox-btn lightbox-next" id="lightbox-next"><i class="fa-solid fa-chevron-right fs-4"></i></div>
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <!-- Back to Top -->
+    <button id="back-to-top-btn" class="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="footer-logo" href="index.html">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <span>Dream Travel</span>
+                    </a>
+                    <p class="footer-text" data-i18n="footer.about.text">Dream Travel provides premium travel services, hotels, and custom travel itineraries backed by advanced recommendation AI.</p>
+                    <div class="social-icons-footer">
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-btn"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.services">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                        <li><a href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                        <li><a href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-3 col-6">
+                    <h5 class="footer-heading" data-i18n="footer.support">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" data-i18n="nav.contact">Contact Us</a></li>
+                        <li><a href="about.html" data-i18n="nav.about">About Creator</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2.4 col-md-6">
+                    <h5 class="footer-heading">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.policy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <span class="footer-copyright">&copy; 2026 Dream Travel. Created by Trần Đăng Gia Nghĩa (THCS Kim Đồng).</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+    <!-- Core App Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai-chat.js"></script>
+
+    <!-- Gallery Database -->
+    <script>
+        const GALLERY_DATA = [
+            { id: 0, category: 'nature', title_en: 'Swiss Alps Interlaken', title_vi: 'Dãy Alps Interlaken, Thụy Sĩ', img: 'https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=800&q=80' },
+            { id: 1, category: 'nature', title_en: 'Ha Long Bay Cruise', title_vi: 'Du thuyền Vịnh Hạ Long', img: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80' },
+            { id: 2, category: 'beaches', title_en: 'Bali Cliff Resort', title_vi: 'Khu nghỉ dưỡng vách đá Bali', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80' },
+            { id: 3, category: 'cities', title_en: 'Eiffel Tower Twilight', title_vi: 'Tháp Eiffel hoàng hôn', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80' },
+            { id: 4, category: 'culture', title_en: 'Kyoto Pagoda Shrine', title_vi: 'Chùa cổ kính Kyoto', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80' },
+            { id: 5, category: 'cities', title_en: 'Tokyo Shibuya Neon', title_vi: 'Đèn neon Shibuya Tokyo', img: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80' },
+            { id: 6, category: 'beaches', title_en: 'Maldives Crystal Lagoon', title_vi: 'Đầm nước trong vắt Maldives', img: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80' },
+            { id: 7, category: 'nature', title_en: 'Iceland Northern Lights', title_vi: 'Cực quang kỳ vĩ Iceland', img: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80' },
+            { id: 8, category: 'cities', title_en: 'Singapore Marina skyline', title_vi: 'Đường chân trời vịnh Marina', img: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80' },
+            { id: 9, category: 'culture', title_en: 'Hoi An Lantern Festival', title_vi: 'Lễ hội đèn lồng Hội An', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80' },
+            { id: 10, category: 'beaches', title_en: 'Phu Quoc beach palm', title_vi: 'Hàng dừa bãi biển Phú Quốc', img: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&w=800&q=80' },
+            { id: 11, category: 'nature', title_en: 'Sa Pa Rice Terraces', title_vi: 'Ruộng bậc thang Sa Pa', img: 'https://images.unsplash.com/photo-1508873696983-2df519f0397e?auto=format&fit=crop&w=800&q=80' }
+        ];
+
+        let activeFilter = 'all';
+        let activeIndex = 0;
+        let visibleItems = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGallery();
+            setupGalleryFilters();
+            setupLightbox();
+            document.addEventListener('languageChanged', renderGallery);
+        });
+
+        function setupGalleryFilters() {
+            const chips = document.querySelectorAll('.filter-chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    activeFilter = chip.getAttribute('data-filter');
+                    renderGallery();
+                });
+            });
+        }
+
+        function renderGallery() {
+            const container = document.getElementById('masonry-grid-container');
+            if (!container) return;
+            const isVi = LanguageEngine.currentLang === 'vi';
+
+            // Filter items
+            visibleItems = GALLERY_DATA.filter(item => {
+                return activeFilter === 'all' || item.category === activeFilter;
+            });
+
+            let gridHTML = '';
+            visibleItems.forEach((item, index) => {
+                const title = isVi ? item.title_vi : item.title_en;
+                gridHTML += `
+                    <div class="masonry-item" onclick="openLightbox(${index})">
+                        <img src="${item.img}" alt="${title}">
+                        <div class="masonry-item-caption">
+                            <span class="small font-weight-bold text-teal text-uppercase">${item.category}</span>
+                            <h6 class="mb-0 font-weight-bold text-sm mt-1" style="font-size: 0.85rem;">${title}</h6>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = gridHTML;
+        }
+
+        // Lightbox controller
+        function setupLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const close = document.getElementById('lightbox-close');
+            const prev = document.getElementById('lightbox-prev');
+            const next = document.getElementById('lightbox-next');
+
+            close.addEventListener('click', closeLightbox);
+            prev.addEventListener('click', showPrevImage);
+            next.addEventListener('click', showNextImage);
+            
+            // Close on overlay click
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrevImage();
+                if (e.key === 'ArrowRight') showNextImage();
+            });
+        }
+
+        function openLightbox(index) {
+            activeIndex = index;
+            const item = visibleItems[activeIndex];
+            if (!item) return;
+
+            const isVi = LanguageEngine.currentLang === 'vi';
+            const imgEl = document.getElementById('lightbox-image');
+            const capEl = document.getElementById('lightbox-caption');
+            const lightbox = document.getElementById('lightbox');
+
+            imgEl.src = item.img;
+            capEl.innerText = isVi ? item.title_vi : item.title_en;
+            
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function showPrevImage() {
+            activeIndex--;
+            if (activeIndex < 0) activeIndex = visibleItems.length - 1;
+            openLightbox(activeIndex);
+        }
+
+        function showNextImage() {
+            activeIndex++;
+            if (activeIndex >= visibleItems.length) activeIndex = 0;
+            openLightbox(activeIndex);
+        }
+    </script>
+</body>
+</html>

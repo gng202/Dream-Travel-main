@@ -1,0 +1,114 @@
+/* Responsive overrides for Dream Travel */
+
+@media (max-width: 991.98px) {
+    .navbar-custom {
+        background-color: var(--navbar-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-bottom: 1px solid var(--border-glass);
+        padding: 15px 0;
+    }
+
+    .nav-link-custom {
+        display: block;
+        padding: 10px 20px;
+        margin: 4px 0;
+        border-radius: 8px;
+    }
+
+    .navbar-controls {
+        margin-top: 15px;
+        justify-content: flex-start;
+        padding-left: 20px;
+    }
+
+    .hero-title {
+        font-size: 2.8rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .glass-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+
+    /* Disable custom cursor on touch devices */
+    .custom-cursor,
+    .custom-cursor-dot {
+        display: none !important;
+    }
+
+    body {
+        cursor: auto !important;
+    }
+
+    /* Chat window tweaks for mobile */
+    .dream-ai-chat-container {
+        width: calc(100% - 30px) !important;
+        right: 15px !important;
+        bottom: 85px !important;
+        height: 480px !important;
+    }
+
+    .dream-ai-toggle-btn {
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .back-to-top {
+        right: 15px;
+        bottom: 85px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .timeline::before {
+        left: 20px !important;
+    }
+
+    .timeline-item {
+        width: 100% !important;
+        padding-left: 50px !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+    }
+
+    .timeline-item::after {
+        left: 20px !important;
+        margin-left: -6px !important;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 0% !important;
+    }
+
+    .timeline-badge {
+        left: 20px !important;
+        transform: translateX(-50%) !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-title {
+        font-size: 1.8rem !important;
+    }
+
+    .btn-premium,
+    .btn-premium-outline {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .footer-custom {
+        padding: 50px 0 20px;
+    }
+}

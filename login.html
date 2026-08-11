@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dream Travel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Dark Mode Initializer (Non-blocking) -->
+    <script src="js/darkmode.js"></script>
+</head>
+<body class="page-fade-transition">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner-glass mb-3"></div>
+        <h4 class="font-weight-bold" style="color: var(--primary-accent);">Dream Travel</h4>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand-custom" href="index.html">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Dream Travel</span>
+            </a>
+            <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="destinations.html" data-i18n="nav.destinations">Destinations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="packages.html" data-i18n="nav.packages">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="hotels.html" data-i18n="nav.hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html#ai-planner-section" data-i18n="nav.aiplanner">AI Planner</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="gallery.html" data-i18n="nav.gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="about.html" data-i18n="nav.about">About</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html" data-i18n="nav.contact">Contact</a></li>
+                </ul>
+                <div class="navbar-controls">
+                    <button class="btn-control" id="theme-toggle-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                    <button class="btn-control language-selector font-weight-bold" id="currency-toggle-btn" title="Toggle Currency"><i class="fa-solid fa-dollar-sign"></i> USD</button>
+                    <div class="dropdown">
+                        <button class="btn-control language-selector dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://flagcdn.com/16x12/us.png" id="selected-lang-flag" alt="Flag">
+                            <span id="selected-lang-text">English</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('en'); return false;"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('vi'); return false;"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                        </ul>
+                    </div>
+                    <div id="navbar-auth-container">
+                        <a href="login.html" class="btn-premium active" data-i18n="nav.login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Container -->
+    <div class="auth-page">
+        <!-- Floating icons for visual appeal -->
+        <i class="fa-solid fa-plane-up floating-icon float-item-1" style="font-size: 3rem; top: 15%; left: 10%;"></i>
+        <i class="fa-solid fa-compass floating-icon float-item-2" style="font-size: 2.5rem; bottom: 20%; right: 12%;"></i>
+        <i class="fa-solid fa-umbrella-beach floating-icon float-item-1" style="font-size: 2.2rem; top: 25%; right: 15%;"></i>
+        <i class="fa-solid fa-hotel floating-icon float-item-2" style="font-size: 2.8rem; bottom: 15%; left: 8%;"></i>
+
+        <div class="glass-card auth-card text-center glass-shine">
+            <h2 class="font-weight-bold mb-2" data-i18n="auth.signin">Sign In</h2>
+            <p class="text-muted mb-4" data-i18n="hero.subtitle">Explore premium destinations and plan trips backed by AI.</p>
+            
+            <form id="login-form">
+                <div class="text-start mb-3">
+                    <label class="form-label text-muted small" data-i18n="contact.email">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--input-border); border-radius: 12px 0 0 12px;"><i class="fa-regular fa-envelope"></i></span>
+                        <input type="email" class="form-control glass-input border-start-0" id="login-email" style="border-radius: 0 12px 12px 0;" placeholder="example@gmail.com" required>
+                    </div>
+                </div>
+                
+                <div class="text-start mb-4">
+                    <label class="form-label text-muted small" data-i18n="auth.signin">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--input-border); border-radius: 12px 0 0 12px;"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control glass-input border-start-0 border-end-0" id="login-password" style="border-radius: 0;" placeholder="••••••" required>
+                        <button type="button" class="btn btn-outline-secondary border-start-0 text-muted" id="toggle-password" style="border: 1px solid var(--input-border); border-radius: 0 12px 12px 0; background: var(--input-bg);"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember-me">
+                        <label class="form-check-label text-muted small" for="remember-me" data-i18n="auth.remember">Remember Me</label>
+                    </div>
+                    <a href="forgot-password.html" class="text-decoration-none small text-teal font-weight-bold" data-i18n="auth.forgot">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-premium w-100 py-3 mb-3 justify-content-center" data-i18n="auth.signin">Sign In</button>
+            </form>
+
+            <div class="text-center text-muted small mt-3">
+                <span data-i18n="auth.noaccount">Don't have an account?</span> 
+                <a href="register.html" class="text-teal text-decoration-none font-weight-bold" data-i18n="auth.signup">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
