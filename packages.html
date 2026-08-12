@@ -56,8 +56,8 @@
                             <span id="selected-lang-text">English</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3" aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('en'); return false;"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('vi'); return false;"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#" data-lang="en"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#" data-lang="vi"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
                         </ul>
                     </div>
                     <div id="navbar-auth-container">
@@ -193,6 +193,76 @@
         </div>
     </footer>
 
+    <!-- ===== Templates ===== -->
+
+    <!-- Package Card Template -->
+    <template id="package-card-template">
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card h-100 d-flex flex-column glass-shine">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge bg-danger rounded-pill px-3 py-2 package-discount"></span>
+                    <span class="stars-rating"><i class="fa-solid fa-star"></i> <span class="package-rating"></span></span>
+                </div>
+                <h5 class="font-weight-bold mb-2 package-title"></h5>
+                <p class="text-muted small mb-4 flex-grow-1 package-description"></p>
+                
+                <ul class="list-unstyled mb-4 small text-muted d-flex flex-column gap-2">
+                    <li><i class="fa-regular fa-calendar-check me-2 text-teal"></i> <strong class="package-days"></strong> <span class="package-days-label">Days</span></li>
+                    <li><i class="fa-solid fa-plane-up me-2 text-teal"></i> <span class="package-flight-label">Flight tickets included</span></li>
+                    <li><i class="fa-solid fa-hotel me-2 text-teal"></i> <span class="package-hotel-label">Hotel room included</span></li>
+                    <li><i class="fa-solid fa-cookie-bite me-2 text-teal"></i> <span class="package-breakfast-label">Breakfast buffet included</span></li>
+                </ul>
+                
+                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
+                    <strong class="fs-4 text-teal package-price"></strong>
+                    <button class="btn btn-premium py-2 px-4 book-now-btn" data-i18n="packages.booknow">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Global Booking Modal -->
+    <div class="modal fade glass-modal" id="global-booking-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-header glass-modal-header border-0">
+                    <h5 class="modal-title font-weight-bold" id="booking-modal-title">Book Vacation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="global-booking-form">
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.name">Full Name</label>
+                            <input type="text" class="form-control glass-input" id="book-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.email">Email Address</label>
+                            <input type="email" class="form-control glass-input" id="book-email" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label text-muted">Travel Date</label>
+                                <input type="date" class="form-control glass-input" id="book-date" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label text-muted" data-i18n="aiplanner.label.people">People</label>
+                                <input type="number" class="form-control glass-input" id="book-guests" min="1" value="1" required>
+                            </div>
+                        </div>
+                        <div class="p-3 mb-4 rounded-3 bg-opacity-10 bg-info border border-info border-opacity-20 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="small text-muted d-block">Estimated Total</span>
+                                <strong class="fs-4" id="book-estimated-cost">$0</strong>
+                            </div>
+                            <span class="badge bg-primary px-3 py-2 rounded-pill" id="book-item-badge">Package</span>
+                        </div>
+                        <button type="submit" class="btn btn-premium w-100 py-3 justify-content-center">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AOS Scroll -->
@@ -203,6 +273,7 @@
     <!-- Core App Scripts -->
     <script src="js/data.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/ai-chat.js"></script>
@@ -224,6 +295,14 @@
                 populateBuilderDestinations();
                 calculateCustomPrice();
             });
+
+            // Language dropdown options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    LanguageEngine.setLanguage(option.dataset.lang);
+                });
+            });
         });
 
         function renderPackages() {
@@ -231,38 +310,19 @@
             if (!container) return;
             const isVi = LanguageEngine.currentLang === 'vi';
 
-            let pkgHTML = '';
+            container.innerHTML = '';
             DREAM_TRAVEL_DATA.packages.forEach(pkg => {
-                const name = isVi ? pkg.name_vi : pkg.name_en;
-                const desc = isVi ? pkg.description_vi : pkg.description_en;
-                const formattedPrice = MainApp.formatPrice(pkg.price);
-
-                pkgHTML += `
-                    <div class="col-lg-4 col-md-6" data-aos="zoom-in">
-                        <div class="glass-card h-100 d-flex flex-column glass-shine">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge bg-danger rounded-pill px-3 py-2">-${pkg.discount_pct}% OFF</span>
-                                <span class="stars-rating"><i class="fa-solid fa-star"></i> ${pkg.rating}</span>
-                            </div>
-                            <h5 class="font-weight-bold mb-2">${name}</h5>
-                            <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
-                            
-                            <ul class="list-unstyled mb-4 small text-muted d-flex flex-column gap-2">
-                                <li><i class="fa-regular fa-calendar-check me-2 text-teal"></i> <strong>${pkg.days}</strong> ${isVi ? 'Ngày' : 'Days'}</li>
-                                <li><i class="fa-solid fa-plane-up me-2 text-teal"></i> ${isVi ? 'Vé máy bay khứ hồi' : 'Flight tickets included'}</li>
-                                <li><i class="fa-solid fa-hotel me-2 text-teal"></i> ${isVi ? 'Khách sạn lưu trú sang trọng' : 'Hotel room included'}</li>
-                                <li><i class="fa-solid fa-cookie-bite me-2 text-teal"></i> ${isVi ? 'Bữa sáng buffet miễn phí' : 'Breakfast buffet included'}</li>
-                            </ul>
-                            
-                            <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
-                                <strong class="fs-4 text-teal">${formattedPrice}</strong>
-                                <button class="btn btn-premium py-2 px-4" onclick="openBookingModal('${name}', ${pkg.price}, 'package')" data-i18n="packages.booknow">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createPackageCard(pkg, { isVi });
+                if (card) {
+                    // Update language-specific labels
+                    card.querySelector('.package-days-label').textContent = isVi ? 'Ngày' : 'Days';
+                    card.querySelector('.package-flight-label').textContent = isVi ? 'Vé máy bay khứ hồi' : 'Flight tickets included';
+                    card.querySelector('.package-hotel-label').textContent = isVi ? 'Khách sạn lưu trú sang trọng' : 'Hotel room included';
+                    card.querySelector('.package-breakfast-label').textContent = isVi ? 'Bữa sáng buffet miễn phí' : 'Breakfast buffet included';
+                    card.setAttribute('data-aos', 'zoom-in');
+                    container.appendChild(card);
+                }
             });
-            container.innerHTML = pkgHTML;
             if (window.LanguageEngine) LanguageEngine.translatePage();
         }
 
@@ -272,12 +332,15 @@
             if (!select) return;
             const isVi = LanguageEngine.currentLang === 'vi';
 
-            let optionsHTML = '';
+            select.innerHTML = '';
             DREAM_TRAVEL_DATA.destinations.forEach(dest => {
                 const name = isVi ? dest.name_vi : dest.name_en;
-                optionsHTML += `<option value="${dest.price}" data-name="${name}">${name} (Base: $${dest.price})</option>`;
+                const option = document.createElement('option');
+                option.value = dest.price;
+                option.dataset.name = name;
+                option.textContent = `${name} (Base: $${dest.price})`;
+                select.appendChild(option);
             });
-            select.innerHTML = optionsHTML;
         }
 
         // Interactive estimator calculator
@@ -324,7 +387,7 @@
 
             const priceEl = document.getElementById('custom-estimated-price');
             if (priceEl) {
-                priceEl.innerText = MainApp.formatPrice(total);
+                priceEl.textContent = MainApp.formatPrice(total);
             }
             return total;
         }

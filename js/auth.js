@@ -186,59 +186,105 @@ const AuthService = {
         if (user) {
             const initials = user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U';
             
-            // Build menu items
-            let menuItems = `
-                <a href="destinations.html?favorites=true" class="user-menu-item">
-                    <i class="fa-solid fa-heart text-danger"></i> <span data-i18n="nav.favorites">My Favorites</span>
-                </a>
-            `;
-            
-            // Add admin link if user is admin
-            if (user.role === 'admin') {
-                menuItems += `
-                    <a href="admin.html" class="user-menu-item border-top border-opacity-10 border-secondary">
-                        <i class="fa-solid fa-shield-admin" style="color: var(--primary-accent);"></i> <span>Admin Dashboard</span>
-                    </a>
-                `;
-            }
-            
-            menuItems += `
-                <a href="#" class="user-menu-item" id="logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav.logout">Sign Out</span>
-                </a>
-            `;
-            
-            // Show status badge if not active
-            let statusBadge = '';
+            // Build dropdown container
+            const dropdown = document.createElement('div');
+            dropdown.className = 'user-profile-dropdown';
+            dropdown.id = 'user-profile-trigger';
+
+            // Avatar with status badge
+            const avatar = document.createElement('div');
+            avatar.className = 'user-avatar';
+            avatar.setAttribute('role', 'button');
+            avatar.style.position = 'relative';
+            avatar.textContent = initials;
+
             if (user.status && user.status !== 'active') {
                 const statusColor = user.status === 'banned' ? 'danger' : (user.status === 'hidden' ? 'warning' : 'secondary');
-                statusBadge = `<span class="badge bg-${statusColor} position-absolute" style="top: -8px; right: -8px; font-size: 0.65rem;">${user.status.toUpperCase()}</span>`;
+                const badge = document.createElement('span');
+                badge.className = `badge bg-${statusColor} position-absolute`;
+                badge.style.cssText = 'top: -8px; right: -8px; font-size: 0.65rem;';
+                badge.textContent = user.status.toUpperCase();
+                avatar.appendChild(badge);
             }
-            
-            authContainer.innerHTML = `
-                <div class="user-profile-dropdown" id="user-profile-trigger">
-                    <div class="user-avatar" role="button" style="position: relative;">${initials}${statusBadge}</div>
-                    <div class="user-menu" id="user-profile-menu">
-                        <div class="user-menu-header">
-                            <div class="user-menu-name">${user.name}</div>
-                            <div class="user-menu-email">${user.email}</div>
-                        </div>
-                        ${menuItems}
-                    </div>
-                </div>
-            `;
+
+            // Menu
+            const menu = document.createElement('div');
+            menu.className = 'user-menu';
+            menu.id = 'user-profile-menu';
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'user-menu-header';
+            const nameEl = document.createElement('div');
+            nameEl.className = 'user-menu-name';
+            nameEl.textContent = user.name;
+            const emailEl = document.createElement('div');
+            emailEl.className = 'user-menu-email';
+            emailEl.textContent = user.email;
+            header.appendChild(nameEl);
+            header.appendChild(emailEl);
+            menu.appendChild(header);
+
+            // Favorites link
+            const favLink = document.createElement('a');
+            favLink.href = 'destinations.html?favorites=true';
+            favLink.className = 'user-menu-item';
+            const favIcon = document.createElement('i');
+            favIcon.className = 'fa-solid fa-heart text-danger';
+            const favText = document.createElement('span');
+            favText.setAttribute('data-i18n', 'nav.favorites');
+            favText.textContent = 'My Favorites';
+            favLink.appendChild(favIcon);
+            favLink.appendChild(favText);
+            menu.appendChild(favLink);
+
+            // Admin link if user is admin
+            if (user.role === 'admin') {
+                const adminLink = document.createElement('a');
+                adminLink.href = 'admin.html';
+                adminLink.className = 'user-menu-item border-top border-opacity-10 border-secondary';
+                const adminIcon = document.createElement('i');
+                adminIcon.className = 'fa-solid fa-shield-admin';
+                adminIcon.style.color = 'var(--primary-accent)';
+                const adminText = document.createElement('span');
+                adminText.textContent = 'Admin Dashboard';
+                adminLink.appendChild(adminIcon);
+                adminLink.appendChild(adminText);
+                menu.appendChild(adminLink);
+            }
+
+            // Logout link
+            const logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.className = 'user-menu-item';
+            logoutLink.id = 'logout-btn';
+            const logoutIcon = document.createElement('i');
+            logoutIcon.className = 'fa-solid fa-right-from-bracket';
+            const logoutText = document.createElement('span');
+            logoutText.setAttribute('data-i18n', 'nav.logout');
+            logoutText.textContent = 'Sign Out';
+            logoutLink.appendChild(logoutIcon);
+            logoutLink.appendChild(logoutText);
+            menu.appendChild(logoutLink);
+
+            dropdown.appendChild(avatar);
+            dropdown.appendChild(menu);
+
+            // Clear and append
+            authContainer.innerHTML = '';
+            authContainer.appendChild(dropdown);
             
             // Setup trigger dropdown
             const trigger = document.getElementById('user-profile-trigger');
-            const menu = document.getElementById('user-profile-menu');
+            const menuEl = document.getElementById('user-profile-menu');
             
             trigger.addEventListener('click', (e) => {
                 e.stopPropagation();
-                menu.classList.toggle('active');
+                menuEl.classList.toggle('active');
             });
             
             document.addEventListener('click', () => {
-                menu.classList.remove('active');
+                menuEl.classList.remove('active');
             });
             
             // Logout binding
@@ -252,9 +298,13 @@ const AuthService = {
                 window.LanguageEngine.translatePage();
             }
         } else {
-            authContainer.innerHTML = `
-                <a href="login.html" class="btn-premium" data-i18n="nav.login">Login</a>
-            `;
+            authContainer.innerHTML = '';
+            const loginLink = document.createElement('a');
+            loginLink.href = 'login.html';
+            loginLink.className = 'btn-premium';
+            loginLink.setAttribute('data-i18n', 'nav.login');
+            loginLink.textContent = 'Login';
+            authContainer.appendChild(loginLink);
             if (window.LanguageEngine) {
                 window.LanguageEngine.translatePage();
             }
@@ -385,11 +435,9 @@ const AuthService = {
                 firebase.auth().sendPasswordResetEmail(email)
                     .then(() => {
                         responseBox.className = "alert alert-success d-block";
-                        if (LanguageEngine.currentLang === 'vi') {
-                            responseBox.innerHTML = `Liên kết đặt lại mật khẩu đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư đến!`;
-                        } else {
-                            responseBox.innerHTML = `Password reset link has been sent to your email. Please check your inbox!`;
-                        }
+                        responseBox.textContent = LanguageEngine.currentLang === 'vi'
+                            ? 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư đến!'
+                            : 'Password reset link has been sent to your email. Please check your inbox!';
                     })
                     .catch((error) => {
                         console.error(error);

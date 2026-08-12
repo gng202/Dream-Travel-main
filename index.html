@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Dark Mode Initializer (FOUC avoidance) -->
     <script src="js/darkmode.js"></script>
-    <!-- Add these inside your <head> tag -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="page-fade-transition">
@@ -76,12 +74,10 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
                             aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
-                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
-                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="en"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="vi"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
                         </ul>
                     </div>
                     <div id="navbar-auth-container">
@@ -116,8 +112,7 @@
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="destinations.html" class="btn-premium py-3 px-4 pulse-btn" data-i18n="hero.btn.explore">Explore
                     Now</a>
-                <button class="btn-premium-outline py-3 px-4"
-                    onclick="document.getElementById('ai-chat-toggle').click();" data-i18n="hero.btn.talkai">Talk With
+                <button class="btn-premium-outline py-3 px-4" id="hero-ai-chat-btn" data-i18n="hero.btn.talkai">Talk With
                     AI</button>
             </div>
         </div>
@@ -455,6 +450,172 @@
         </div>
     </footer>
 
+    <!-- ===== Templates ===== -->
+
+    <!-- Destination Slide Template (Swiper) -->
+    <template id="destination-slide-template">
+        <div class="swiper-slide">
+            <div class="dest-slide-card img-hover-zoom">
+                <img class="dest-slide-image" src="" alt="">
+                <div class="dest-slide-overlay">
+                    <span class="badge bg-primary mb-2 dest-slide-country"></span>
+                    <h4 class="font-weight-bold mb-1 dest-slide-title"></h4>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="stars-rating"><i class="fa-solid fa-star"></i> <span class="dest-slide-rating"></span></span>
+                        <strong class="text-teal fs-5 dest-slide-price"></strong>
+                    </div>
+                    <p class="small text-white-50 mb-3 dest-slide-desc" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></p>
+                    <button class="btn btn-premium btn-sm w-100 py-2 justify-content-center book-now-btn">
+                        <span data-i18n="packages.booknow">Book Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Destination Card Template -->
+    <template id="destination-card-template">
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
+                <div class="img-hover-zoom position-relative" style="height: 220px;">
+                    <img class="destination-image" src="" alt="">
+                    <button class="btn-control position-absolute favorite-btn" style="top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;" title="Favorite">
+                        <i class="fa-regular fa-heart text-danger"></i>
+                    </button>
+                    <span class="position-absolute bg-dark text-white rounded-pill px-3 py-1 text-xs font-weight-bold destination-weather" style="bottom: 15px; left: 15px; background-color: rgba(15, 23, 42, 0.7) !important;">
+                        <i class="fa-solid fa-cloud-sun me-1"></i>
+                    </span>
+                </div>
+                <div class="p-4 flex-grow-1 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-teal font-weight-bold small destination-country"></span>
+                        <span class="stars-rating"><i class="fa-solid fa-star"></i> <span class="destination-rating"></span></span>
+                    </div>
+                    <h5 class="font-weight-bold mb-3 destination-title"></h5>
+                    <p class="text-muted small mb-4 flex-grow-1 destination-description" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"></p>
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
+                        <div>
+                            <span class="small text-muted d-block" data-i18n="destinations.price_from">From</span>
+                            <strong class="fs-4 text-teal destination-price"></strong>
+                        </div>
+                        <button class="btn-premium-outline btn-sm py-2 px-3 view-details-btn" data-i18n="destinations.viewdetails">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Package Card Template -->
+    <template id="package-card-template">
+        <div class="col-md-4">
+            <div class="glass-card h-100 d-flex flex-column glass-shine">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge bg-danger rounded-pill px-3 py-2 package-discount"></span>
+                    <span class="stars-rating"><i class="fa-solid fa-star"></i> <span class="package-rating"></span></span>
+                </div>
+                <h5 class="font-weight-bold mb-2 package-title"></h5>
+                <p class="text-muted small mb-4 flex-grow-1 package-description"></p>
+                
+                <ul class="list-unstyled mb-4 small text-muted d-flex flex-column gap-2">
+                    <li><i class="fa-regular fa-calendar-check me-2 text-teal"></i> <strong class="package-days"></strong> <span class="package-days-label">Days</span></li>
+                    <li><i class="fa-solid fa-plane-up me-2 text-teal"></i> <span class="package-flight-label">Flight tickets included</span></li>
+                    <li><i class="fa-solid fa-hotel me-2 text-teal"></i> <span class="package-hotel-label">Hotel room included</span></li>
+                    <li><i class="fa-solid fa-cookie-bite me-2 text-teal"></i> <span class="package-breakfast-label">Breakfast buffet included</span></li>
+                </ul>
+                
+                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
+                    <strong class="fs-4 text-teal package-price"></strong>
+                    <button class="btn btn-premium btn-sm py-2 px-3 book-now-btn" data-i18n="packages.booknow">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Hotel Card Template -->
+    <template id="hotel-card-template">
+        <div class="col-md-4">
+            <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
+                <div class="img-hover-zoom" style="height: 200px;">
+                    <img class="hotel-image" src="" alt="">
+                </div>
+                <div class="p-4 flex-grow-1 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="stars-rating hotel-stars"></span>
+                        <span class="badge bg-opacity-10 bg-primary text-teal px-2 py-1 text-xs"><i class="fa-solid fa-location-dot me-1"></i> <span class="hotel-location"></span></span>
+                    </div>
+                    <h5 class="font-weight-bold mb-2 hotel-title"></h5>
+                    <p class="text-muted small mb-4 flex-grow-1 hotel-description"></p>
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
+                        <div>
+                            <strong class="fs-4 text-teal hotel-price"></strong>
+                            <span class="small text-muted" data-i18n="hotels.pernight">/ night</span>
+                        </div>
+                        <button class="btn btn-premium-outline btn-sm py-2 px-3 book-now-btn" data-i18n="hotels.book">Book Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Testimonial Card Template -->
+    <template id="testimonial-card-template">
+        <div class="swiper-slide h-auto">
+            <div class="glass-card h-100 d-flex flex-column">
+                <div class="mb-3 testimonial-stars"></div>
+                <p class="text-muted small mb-4 flex-grow-1 italic testimonial-text"></p>
+                <div class="d-flex align-items-center gap-3 border-top border-glass pt-3 mt-auto">
+                    <img class="testimonial-avatar rounded-circle" src="" alt="" style="width: 45px; height: 45px; object-fit: cover;">
+                    <div>
+                        <h6 class="mb-0 font-weight-bold text-sm testimonial-name"></h6>
+                        <span class="small text-muted testimonial-role" style="font-size: 0.75rem;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Global Booking Modal -->
+    <div class="modal fade glass-modal" id="global-booking-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-header glass-modal-header border-0">
+                    <h5 class="modal-title font-weight-bold" id="booking-modal-title">Book Vacation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="global-booking-form">
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.name">Full Name</label>
+                            <input type="text" class="form-control glass-input" id="book-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.email">Email Address</label>
+                            <input type="email" class="form-control glass-input" id="book-email" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label text-muted">Travel Date</label>
+                                <input type="date" class="form-control glass-input" id="book-date" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label text-muted" data-i18n="aiplanner.label.people">People</label>
+                                <input type="number" class="form-control glass-input" id="book-guests" min="1" value="1" required>
+                            </div>
+                        </div>
+                        <div class="p-3 mb-4 rounded-3 bg-opacity-10 bg-info border border-info border-opacity-20 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="small text-muted d-block">Estimated Total</span>
+                                <strong class="fs-4" id="book-estimated-cost">$0</strong>
+                            </div>
+                            <span class="badge bg-primary px-3 py-2 rounded-pill" id="book-item-badge">Package</span>
+                        </div>
+                        <button type="submit" class="btn btn-premium w-100 py-3 justify-content-center">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Swiper JS -->
@@ -471,6 +632,7 @@
     <!-- Core App Scripts -->
     <script src="js/data.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/ai-chat.js"></script>
@@ -509,6 +671,23 @@
                     newsletterForm.reset();
                 });
             }
+
+            // Hero AI chat button
+            const heroAiBtn = document.getElementById('hero-ai-chat-btn');
+            if (heroAiBtn) {
+                heroAiBtn.addEventListener('click', () => {
+                    const aiToggle = document.getElementById('dream-ai-button');
+                    if (aiToggle) aiToggle.click();
+                });
+            }
+
+            // Language dropdown options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    LanguageEngine.setLanguage(option.dataset.lang);
+                });
+            });
         });
 
         // 8 Slides destinations carousel
@@ -521,34 +700,11 @@
             const targetIds = ['paris', 'tokyo', 'bali', 'interlaken', 'iceland', 'maldives', 'marinabay', 'halong'];
             const slidesData = DREAM_TRAVEL_DATA.destinations.filter(d => targetIds.includes(d.id));
 
-            let slidesHTML = '';
+            swiperWrapper.innerHTML = '';
             slidesData.forEach(dest => {
-                const name = isVi ? dest.name_vi : dest.name_en;
-                const country = isVi ? dest.country_vi : dest.country_en;
-                const desc = isVi ? dest.description_vi : dest.description_en;
-                const formattedPrice = MainApp.formatPrice(dest.price);
-
-                slidesHTML += `
-                    <div class="swiper-slide">
-                        <div class="dest-slide-card img-hover-zoom">
-                            <img src="${dest.image}" alt="${name}">
-                            <div class="dest-slide-overlay">
-                                <span class="badge bg-primary mb-2">${country}</span>
-                                <h4 class="font-weight-bold mb-1">${name}</h4>
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="stars-rating"><i class="fa-solid fa-star"></i> ${dest.rating}</span>
-                                    <strong class="text-teal fs-5">${formattedPrice}</strong>
-                                </div>
-                                <p class="small text-white-50 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${desc}</p>
-                                <button class="btn btn-premium btn-sm w-100 py-2 justify-content-center" onclick="openBookingModal('${name}', ${dest.price}, 'destination')">
-                                    <span data-i18n="packages.booknow">Book Now</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const slide = UI.createDestinationSlide(dest, { isVi });
+                if (slide) swiperWrapper.appendChild(slide);
             });
-            swiperWrapper.innerHTML = slidesHTML;
             if (window.initializeDreamTravelSliders) {
                 window.initializeDreamTravelSliders();
             }
@@ -561,56 +717,16 @@
             const isVi = LanguageEngine.currentLang === 'vi';
             const favorites = getFavorites();
 
-            let gridHTML = '';
+            grid.innerHTML = '';
             // Render first 6 items
             DREAM_TRAVEL_DATA.destinations.slice(0, 6).forEach(dest => {
-                const name = isVi ? dest.name_vi : dest.name_en;
-                const country = isVi ? dest.country_vi : dest.country_en;
-                const weatherStr = isVi ? dest.weather_vi : dest.weather;
-                const formattedPrice = MainApp.formatPrice(dest.price);
-                const isFav = favorites.includes(dest.id);
-
-                gridHTML += `
-                    <div class="col-lg-4 col-md-6">
-                        <div class="glass-card p-0 overflow-hidden height-100 d-flex flex-column h-100">
-                            <div class="img-hover-zoom position-relative" style="height: 220px;">
-                                <img src="${dest.image}" alt="${name}">
-                                <button class="btn-control position-absolute" style="top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;" onclick="event.stopPropagation(); handleFavToggle('${dest.id}', this)" title="Favorite">
-                                    <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart text-danger"></i>
-                                </button>
-                                <span class="position-absolute bg-dark text-white rounded-pill px-3 py-1 text-xs font-weight-bold" style="bottom: 15px; left: 15px; background-color: rgba(15, 23, 42, 0.7) !important;">
-                                    <i class="fa-solid fa-cloud-sun me-1"></i> ${weatherStr}
-                                </span>
-                            </div>
-                            <div class="p-4 flex-grow-1 d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-teal font-weight-bold small">${country}</span>
-                                    <span class="stars-rating"><i class="fa-solid fa-star"></i> ${dest.rating}</span>
-                                </div>
-                                <h5 class="font-weight-bold mb-3">${name}</h5>
-                                <p class="text-muted small mb-4 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                    ${isVi ? dest.description_vi : dest.description_en}
-                                </p>
-                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
-                                    <div>
-                                        <span class="small text-muted d-block" data-i18n="destinations.price_from">From</span>
-                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
-                                    </div>
-                                    <a href="destinations.html?id=${dest.id}" class="btn-premium-outline btn-sm py-2 px-3" data-i18n="destinations.viewdetails">View Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createDestinationCard(dest, {
+                    isVi,
+                    isFav: favorites.includes(dest.id),
+                    showDetailsBtn: false
+                });
+                if (card) grid.appendChild(card);
             });
-            grid.innerHTML = gridHTML;
-        }
-
-        // Favorites handler on home
-        function handleFavToggle(id, btn) {
-            const added = toggleFavorite(id);
-            const icon = btn.querySelector('i');
-            icon.className = added ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart text-danger';
         }
 
         // Travel packages highlights
@@ -619,38 +735,18 @@
             if (!container) return;
             const isVi = LanguageEngine.currentLang === 'vi';
 
-            let pkgHTML = '';
+            container.innerHTML = '';
             DREAM_TRAVEL_DATA.packages.slice(0, 3).forEach(pkg => {
-                const name = isVi ? pkg.name_vi : pkg.name_en;
-                const desc = isVi ? pkg.description_vi : pkg.description_en;
-                const formattedPrice = MainApp.formatPrice(pkg.price);
-
-                pkgHTML += `
-                    <div class="col-md-4">
-                        <div class="glass-card h-100 d-flex flex-column glass-shine">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge bg-danger rounded-pill px-3 py-2">-${pkg.discount_pct}% OFF</span>
-                                <span class="stars-rating"><i class="fa-solid fa-star"></i> ${pkg.rating}</span>
-                            </div>
-                            <h5 class="font-weight-bold mb-2">${name}</h5>
-                            <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
-                            
-                            <ul class="list-unstyled mb-4 small text-muted d-flex flex-column gap-2">
-                                <li><i class="fa-regular fa-calendar-check me-2 text-teal"></i> <strong>${pkg.days}</strong> ${isVi ? 'Ngày' : 'Days'}</li>
-                                <li><i class="fa-solid fa-plane-up me-2 text-teal"></i> ${isVi ? 'Vé máy bay khứ hồi' : 'Flight tickets included'}</li>
-                                <li><i class="fa-solid fa-hotel me-2 text-teal"></i> ${isVi ? 'Khách sạn lưu trú sang trọng' : 'Hotel room included'}</li>
-                                <li><i class="fa-solid fa-cookie-bite me-2 text-teal"></i> ${isVi ? 'Bữa sáng buffet miễn phí' : 'Breakfast buffet included'}</li>
-                            </ul>
-                            
-                            <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
-                                <strong class="fs-4 text-teal">${formattedPrice}</strong>
-                                <button class="btn btn-premium btn-sm py-2 px-3" onclick="openBookingModal('${name}', ${pkg.price}, 'package')" data-i18n="packages.booknow">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createPackageCard(pkg, { isVi });
+                if (card) {
+                    // Update language-specific labels
+                    card.querySelector('.package-days-label').textContent = isVi ? 'Ngày' : 'Days';
+                    card.querySelector('.package-flight-label').textContent = isVi ? 'Vé máy bay khứ hồi' : 'Flight tickets included';
+                    card.querySelector('.package-hotel-label').textContent = isVi ? 'Khách sạn lưu trú sang trọng' : 'Hotel room included';
+                    card.querySelector('.package-breakfast-label').textContent = isVi ? 'Bữa sáng buffet miễn phí' : 'Breakfast buffet included';
+                    container.appendChild(card);
+                }
             });
-            container.innerHTML = pkgHTML;
         }
 
         // Hotels highlights
@@ -659,43 +755,11 @@
             if (!container) return;
             const isVi = LanguageEngine.currentLang === 'vi';
 
-            let hotelHTML = '';
+            container.innerHTML = '';
             DREAM_TRAVEL_DATA.hotels.slice(0, 3).forEach(hotel => {
-                const location = isVi ? hotel.location_vi : hotel.location_en;
-                const desc = isVi ? hotel.description_vi : hotel.description_en;
-                const formattedPrice = MainApp.formatPrice(hotel.price);
-
-                let starIcons = '';
-                for (let i = 0; i < hotel.stars; i++) {
-                    starIcons += '<i class="fa-solid fa-star text-warning"></i> ';
-                }
-
-                hotelHTML += `
-                    <div class="col-md-4">
-                        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
-                            <div class="img-hover-zoom" style="height: 200px;">
-                                <img src="${hotel.image}" alt="${hotel.name}">
-                            </div>
-                            <div class="p-4 flex-grow-1 d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="stars-rating">${starIcons}</span>
-                                    <span class="badge bg-opacity-10 bg-primary text-teal px-2 py-1 text-xs"><i class="fa-solid fa-location-dot me-1"></i> ${location}</span>
-                                </div>
-                                <h5 class="font-weight-bold mb-2">${hotel.name}</h5>
-                                <p class="text-muted small mb-4 flex-grow-1">${desc}</p>
-                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass">
-                                    <div>
-                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
-                                        <span class="small text-muted" data-i18n="hotels.pernight">/ night</span>
-                                    </div>
-                                    <button class="btn btn-premium-outline btn-sm py-2 px-3" onclick="openBookingModal('${hotel.name}', ${hotel.price}, 'hotel')" data-i18n="hotels.book">Book Room</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createHotelCard(hotel, { isVi });
+                if (card) container.appendChild(card);
             });
-            container.innerHTML = hotelHTML;
         }
 
         // Testimonials dynamic render
@@ -704,32 +768,11 @@
             if (!container) return;
             const isVi = LanguageEngine.currentLang === 'vi';
 
-            let testHTML = '';
+            container.innerHTML = '';
             DREAM_TRAVEL_DATA.testimonials.forEach(test => {
-                const role = isVi ? test.role_vi : test.role_en;
-                const text = isVi ? test.text_vi : test.text_en;
-                let stars = '';
-                for (let i = 0; i < test.rating; i++) {
-                    stars += '<i class="fa-solid fa-star text-warning"></i> ';
-                }
-
-                testHTML += `
-                    <div class="swiper-slide h-auto">
-                        <div class="glass-card h-100 d-flex flex-column">
-                            <div class="mb-3">${stars}</div>
-                            <p class="text-muted small mb-4 flex-grow-1 italic">"${text}"</p>
-                            <div class="d-flex align-items-center gap-3 border-top border-glass pt-3 mt-auto">
-                                <img src="${test.avatar}" alt="${test.name}" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
-                                <div>
-                                    <h6 class="mb-0 font-weight-bold text-sm">${test.name}</h6>
-                                    <span class="small text-muted" style="font-size: 0.75rem;">${role}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createTestimonialCard(test, { isVi });
+                if (card) container.appendChild(card);
             });
-            container.innerHTML = testHTML;
             if (window.initializeDreamTravelSliders) {
                 window.initializeDreamTravelSliders();
             } else if (window.SliderService) {

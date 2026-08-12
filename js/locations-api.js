@@ -45,18 +45,6 @@ const LocationsAPI = (() => {
         renderLocations();
     };
 
-    const buildSpecialtyMarkup = (specialties) => {
-        return specialties.map(spec => `
-            <li class="specialty-item">
-                <div class="specialty-copy">
-                    <div class="specialty-title">${spec.name}</div>
-                    <div class="specialty-description">${spec.description}</div>
-                </div>
-                <span class="price-badge">${getPriceText(spec.price_usd)}</span>
-            </li>
-        `).join('');
-    };
-
     const renderLocations = () => {
         const listEl = document.getElementById('api-locations-list');
         const loadingEl = document.getElementById('api-locations-loading');
@@ -81,37 +69,26 @@ const LocationsAPI = (() => {
         }
 
         if (state.locations.length === 0) {
-            listEl.innerHTML = `
-                <div class="col-12">
-                    <div class="alert alert-warning">No travel locations available right now.</div>
-                </div>
-            `;
+            listEl.innerHTML = '';
+            const emptyCol = document.createElement('div');
+            emptyCol.className = 'col-12';
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-warning';
+            alert.textContent = 'No travel locations available right now.';
+            emptyCol.appendChild(alert);
+            listEl.appendChild(emptyCol);
             listEl.classList.remove('d-none');
             return;
         }
 
-        const cards = state.locations.map(location => `
-            <div class="col-lg-4 col-md-6">
-                <article class="location-card shadow-sm">
-                    <img src="${location.image_url}" alt="${location.name}" loading="lazy">
-                    <div class="location-card-body">
-                        <div>
-                            <h3 class="location-card-title">${location.name}</h3>
-                            <p class="location-card-description">${location.description}</p>
-                        </div>
-                        <ul class="specialty-list">
-                            ${buildSpecialtyMarkup(location.specialties)}
-                        </ul>
-                        <div class="location-card-meta mt-auto">
-                            <span class="meta-pill">${location.specialties.length} specialties</span>
-                            <span class="meta-pill">${currency}</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        `).join('');
-
-        listEl.innerHTML = cards;
+        listEl.innerHTML = '';
+        state.locations.forEach(location => {
+            const card = UI.createLocationCard(location, {
+                currency,
+                formatPrice: getPriceText
+            });
+            if (card) listEl.appendChild(card);
+        });
         listEl.classList.remove('d-none');
         errorEl.classList.add('d-none');
     };

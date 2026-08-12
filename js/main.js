@@ -181,91 +181,17 @@ const MainApp = {
     },
 
     setupBookingHandlers: function() {
-        // Shared Booking Modal Logic
+        // The booking modal is now static HTML in each page.
+        // We just expose the openBookingModal function and setup the form.
         window.openBookingModal = function(itemName, price, itemType = 'destination') {
-            // Find or create booking modal dynamically to ensure compatibility across all pages
-            let modalEl = document.getElementById('global-booking-modal');
-            if (!modalEl) {
-                const modalHTML = `
-                    <div class="modal fade glass-modal" id="global-booking-modal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content glass-modal-content">
-                                <div class="modal-header glass-modal-header border-0">
-                                    <h5 class="modal-title font-weight-bold" id="booking-modal-title">Book Vacation</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body p-4">
-                                    <form id="global-booking-form">
-                                        <div class="mb-3">
-                                            <label class="form-label text-muted" data-i18n="contact.name">Full Name</label>
-                                            <input type="text" class="form-control glass-input" id="book-name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label text-muted" data-i18n="contact.email">Email Address</label>
-                                            <input type="email" class="form-control glass-input" id="book-email" required>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label text-muted">Travel Date</label>
-                                                <input type="date" class="form-control glass-input" id="book-date" required>
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label text-muted" data-i18n="aiplanner.label.people">People</label>
-                                                <input type="number" class="form-control glass-input" id="book-guests" min="1" value="1" required>
-                                            </div>
-                                        </div>
-                                        <div class="p-3 mb-4 rounded-3 bg-opacity-10 bg-info border border-info border-opacity-20 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <span class="small text-muted d-block">Estimated Total</span>
-                                                <strong class="fs-4" id="book-estimated-cost">$0</strong>
-                                            </div>
-                                            <span class="badge bg-primary px-3 py-2 rounded-pill" id="book-item-badge">Package</span>
-                                        </div>
-                                        <button type="submit" class="btn btn-premium w-100 py-3 justify-content-center">Confirm Booking</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-                modalEl = document.getElementById('global-booking-modal');
-            }
-
-            // Populate fields
-            document.getElementById('booking-modal-title').innerText = itemName;
-            document.getElementById('book-item-badge').innerText = itemType.toUpperCase();
-            
-            const basePrice = price;
-            const costEl = document.getElementById('book-estimated-cost');
-            const guestsEl = document.getElementById('book-guests');
-            
-            const updateCost = () => {
-                const guests = parseInt(guestsEl.value) || 1;
-                costEl.innerText = MainApp.formatPrice(basePrice * guests);
-            };
-            
-            guestsEl.addEventListener('input', updateCost);
-            updateCost();
-
-            // Set current logged in user details if available
-            const currentUser = JSON.parse(sessionStorage.getItem('dream_travel_logged_in') || localStorage.getItem('dream_travel_logged_in'));
-            if (currentUser) {
-                document.getElementById('book-name').value = currentUser.name || '';
-                document.getElementById('book-email').value = currentUser.email || '';
-            }
-
-            const modal = new bootstrap.Modal(modalEl);
-            modal.show();
-
-            const form = document.getElementById('global-booking-form');
-            form.onsubmit = (e) => {
-                e.preventDefault();
-                alert(LanguageEngine.currentLang === 'vi' ? 'Đặt phòng thành công! Chúng tôi sẽ liên hệ với bạn qua email sớm nhất.' : 'Booking confirmed! We will contact you via email shortly.');
-                modal.hide();
-                form.reset();
-            };
+            UI.openBookingModal(itemName, price, itemType);
         };
+
+        // Setup the booking form submission once
+        UI.setupBookingForm();
+        UI.setupBookingButtons();
+        UI.setupFavoriteButtons();
+        UI.setupDetailsButtons();
     }
 };
 

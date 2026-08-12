@@ -23,41 +23,98 @@ const DreamAIChat = {
     injectUI: function() {
         if (document.getElementById('dream-ai-widget-root')) return;
 
-        // The HTML for your widget remains the same
-        const widgetHTML = `
-            <div id="dream-ai-widget-root" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-                <button id="dream-ai-button" class="btn btn-primary rounded-circle shadow d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;" aria-label="Open Dream AI chat">
-                    <i class="fa-solid fa-robot fa-2x"></i>
-                </button>
+        const widgetRoot = document.createElement('div');
+        widgetRoot.id = 'dream-ai-widget-root';
+        widgetRoot.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 9999;';
 
-                <div id="dream-ai-chat-window" class="card shadow d-none flex-column" style="width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0; border-radius: 15px; overflow: hidden;">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center p-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fa-solid fa-brain"></i>
-                            <span class="fw-bold">Dream AI</span>
-                        </div>
-                        <button id="dream-ai-close-button" class="btn btn-sm btn-outline-light border-0"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
+        // Toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.id = 'dream-ai-button';
+        toggleBtn.className = 'btn btn-primary rounded-circle shadow d-flex align-items-center justify-content-center';
+        toggleBtn.style.cssText = 'width: 60px; height: 60px;';
+        toggleBtn.setAttribute('aria-label', 'Open Dream AI chat');
+        const toggleIcon = document.createElement('i');
+        toggleIcon.className = 'fa-solid fa-robot fa-2x';
+        toggleBtn.appendChild(toggleIcon);
+        widgetRoot.appendChild(toggleBtn);
 
-                    <div id="dream-ai-messages" class="card-body bg-light overflow-auto p-3" style="flex-grow: 1;">
-                        <!-- Messages go here -->
-                    </div>
+        // Chat window
+        const chatWindow = document.createElement('div');
+        chatWindow.id = 'dream-ai-chat-window';
+        chatWindow.className = 'card shadow d-none flex-column';
+        chatWindow.style.cssText = 'width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0; border-radius: 15px; overflow: hidden;';
 
-                    <div class="card-footer bg-white p-2">
-                        <div class="d-flex gap-2 overflow-auto mb-2" id="dream-ai-suggestions" style="white-space: nowrap;">
-                            <button class="btn btn-sm btn-outline-secondary dream-ai-chip">Bali itinerary</button>
-                            <button class="btn btn-sm btn-outline-secondary dream-ai-chip">Packing checklist</button>
-                        </div>
-                        <form id="dream-ai-form" class="d-flex gap-2">
-                            <input type="text" id="dream-ai-input" class="form-control" placeholder="Ask Dream AI..." required autocomplete="off">
-                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        `;
+        // Header
+        const header = document.createElement('div');
+        header.className = 'card-header bg-primary text-white d-flex justify-content-between align-items-center p-3';
+        const headerLeft = document.createElement('div');
+        headerLeft.className = 'd-flex align-items-center gap-2';
+        const brainIcon = document.createElement('i');
+        brainIcon.className = 'fa-solid fa-brain';
+        const title = document.createElement('span');
+        title.className = 'fw-bold';
+        title.textContent = 'Dream AI';
+        headerLeft.appendChild(brainIcon);
+        headerLeft.appendChild(title);
+        const closeBtn = document.createElement('button');
+        closeBtn.id = 'dream-ai-close-button';
+        closeBtn.className = 'btn btn-sm btn-outline-light border-0';
+        const closeIcon = document.createElement('i');
+        closeIcon.className = 'fa-solid fa-xmark';
+        closeBtn.appendChild(closeIcon);
+        header.appendChild(headerLeft);
+        header.appendChild(closeBtn);
+        chatWindow.appendChild(header);
 
-        document.body.insertAdjacentHTML('beforeend', widgetHTML);
+        // Messages container
+        const messages = document.createElement('div');
+        messages.id = 'dream-ai-messages';
+        messages.className = 'card-body bg-light overflow-auto p-3';
+        messages.style.flexGrow = '1';
+        chatWindow.appendChild(messages);
+
+        // Footer with suggestions and form
+        const footer = document.createElement('div');
+        footer.className = 'card-footer bg-white p-2';
+
+        const suggestions = document.createElement('div');
+        suggestions.id = 'dream-ai-suggestions';
+        suggestions.className = 'd-flex gap-2 overflow-auto mb-2';
+        suggestions.style.whiteSpace = 'nowrap';
+
+        const chip1 = document.createElement('button');
+        chip1.className = 'btn btn-sm btn-outline-secondary dream-ai-chip';
+        chip1.textContent = 'Bali itinerary';
+        const chip2 = document.createElement('button');
+        chip2.className = 'btn btn-sm btn-outline-secondary dream-ai-chip';
+        chip2.textContent = 'Packing checklist';
+        suggestions.appendChild(chip1);
+        suggestions.appendChild(chip2);
+        footer.appendChild(suggestions);
+
+        const form = document.createElement('form');
+        form.id = 'dream-ai-form';
+        form.className = 'd-flex gap-2';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'dream-ai-input';
+        input.className = 'form-control';
+        input.placeholder = 'Ask Dream AI...';
+        input.required = true;
+        input.autocomplete = 'off';
+        const submitBtn = document.createElement('button');
+        submitBtn.type = 'submit';
+        submitBtn.className = 'btn btn-primary';
+        const sendIcon = document.createElement('i');
+        sendIcon.className = 'fa-solid fa-paper-plane';
+        submitBtn.appendChild(sendIcon);
+        form.appendChild(input);
+        form.appendChild(submitBtn);
+        footer.appendChild(form);
+        chatWindow.appendChild(footer);
+
+        widgetRoot.appendChild(chatWindow);
+        document.body.appendChild(widgetRoot);
     },
 
     bindEvents: function() {
@@ -107,36 +164,43 @@ const DreamAIChat = {
 
     addUserMessage: function(text) {
         const container = document.getElementById('dream-ai-messages');
-        const html = `
-            <div class="d-flex justify-content-end mb-3">
-                <div class="bg-primary text-white p-2 rounded-3" style="max-width: 80%;">${this.escapeHtml(text)}</div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
+        const wrapper = document.createElement('div');
+        wrapper.className = 'd-flex justify-content-end mb-3';
+        const bubble = document.createElement('div');
+        bubble.className = 'bg-primary text-white p-2 rounded-3';
+        bubble.style.maxWidth = '80%';
+        bubble.textContent = text; // textContent prevents XSS
+        wrapper.appendChild(bubble);
+        container.appendChild(wrapper);
         container.scrollTop = container.scrollHeight;
-        
+
         // Save to Gemini's expected format
         this.chatHistory.push({ role: 'user', parts: [{ text: text }] });
     },
 
     addBotMessage: function(text) {
         const container = document.getElementById('dream-ai-messages');
-        const html = `
-            <div class="d-flex justify-content-start mb-3">
-                <div class="bg-white border p-2 rounded-3" style="max-width: 80%;">${this.formatText(text)}</div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
+        const wrapper = document.createElement('div');
+        wrapper.className = 'd-flex justify-content-start mb-3';
+        const bubble = document.createElement('div');
+        bubble.className = 'bg-white border p-2 rounded-3';
+        bubble.style.maxWidth = '80%';
+        bubble.innerHTML = this.formatText(text); // formatText escapes HTML then adds formatting
+        wrapper.appendChild(bubble);
+        container.appendChild(wrapper);
         container.scrollTop = container.scrollHeight;
-        
+
         // Save to Gemini's expected format
         this.chatHistory.push({ role: 'model', parts: [{ text: text }] });
     },
 
     showTypingIndicator: function() {
         const container = document.getElementById('dream-ai-messages');
-        const html = `<div id="dream-ai-typing" class="text-muted small mb-3">Typing...</div>`;
-        container.insertAdjacentHTML('beforeend', html);
+        const indicator = document.createElement('div');
+        indicator.id = 'dream-ai-typing';
+        indicator.className = 'text-muted small mb-3';
+        indicator.textContent = 'Typing...';
+        container.appendChild(indicator);
         container.scrollTop = container.scrollHeight;
     },
 
@@ -145,9 +209,6 @@ const DreamAIChat = {
         if (indicator) indicator.remove();
     },
 
-    // ---------------------------------------------------------
-    // 👇 THIS IS THE FIXED API CALL 👇
-    // ---------------------------------------------------------
     requestAIReply: async function(prompt) {
         if (this.isTyping) return;
         this.isTyping = true;
@@ -183,9 +244,6 @@ const DreamAIChat = {
             this.isTyping = false;
         }
     },
-    // ---------------------------------------------------------
-    // 👆 END OF FIX 👆
-    // ---------------------------------------------------------
 
     renderWelcomeMessage: function() {
         const text = 'Hello! I am Dream AI. Ask me about travel destinations, itineraries, hotels, weather, or visa tips.';
@@ -195,13 +253,10 @@ const DreamAIChat = {
     },
 
     escapeHtml: function(value) {
-        return String(value)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/\n/g, '<br>');
+        // Use a text node to let the browser handle HTML escaping safely
+        const div = document.createElement('div');
+        div.textContent = String(value);
+        return div.innerHTML.replace(/\n/g, '<br>');
     },
 
     formatText: function(value) {

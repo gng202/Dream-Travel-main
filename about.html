@@ -70,12 +70,10 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
                             aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
-                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
-                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="en"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="vi"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
                         </ul>
                     </div>
                     <div id="navbar-auth-container">
@@ -274,9 +272,20 @@
     <!-- Core App Scripts -->
     <script src="js/data.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/ai-chat.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    LanguageEngine.setLanguage(option.dataset.lang);
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

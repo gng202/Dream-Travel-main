@@ -71,12 +71,10 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3"
                             aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('en'); return false;"><img
-                                        src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                    onclick="LanguageEngine.setLanguage('vi'); return false;"><img
-                                        src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="en"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#"
+                                    data-lang="vi"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
                         </ul>
                     </div>
                     <div id="navbar-auth-container">
@@ -185,11 +183,11 @@
         </div>
     </main>
 
-    <!-- Destination Detail Modal (Apple Glass style details window) -->
+    <!-- Destination Detail Modal -->
     <div class="modal fade glass-modal" id="details-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content glass-modal-content" id="details-modal-content">
-                <!-- Loaded dynamically -->
+                <!-- Populated via JS -->
             </div>
         </div>
     </div>
@@ -244,6 +242,110 @@
         </div>
     </footer>
 
+    <!-- ===== Templates ===== -->
+
+    <!-- Destination Card Template -->
+    <template id="destination-card-template">
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
+                <div class="img-hover-zoom position-relative" style="height: 220px;">
+                    <img class="destination-image" src="" alt="">
+                    <button class="btn-control position-absolute favorite-btn" style="top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;" title="Favorite">
+                        <i class="fa-regular fa-heart text-danger"></i>
+                    </button>
+                    <span class="position-absolute bg-dark text-white rounded-pill px-3 py-1 text-xs font-weight-bold destination-weather" style="bottom: 15px; left: 15px; background-color: rgba(15, 23, 42, 0.7) !important;">
+                        <i class="fa-solid fa-cloud-sun me-1"></i>
+                    </span>
+                </div>
+                <div class="p-4 flex-grow-1 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-teal font-weight-bold small destination-country"></span>
+                        <span class="stars-rating"><i class="fa-solid fa-star"></i> <span class="destination-rating"></span></span>
+                    </div>
+                    <h5 class="font-weight-bold mb-3 destination-title"></h5>
+                    <p class="text-muted small mb-4 flex-grow-1 destination-description" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"></p>
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
+                        <div>
+                            <span class="small text-muted d-block" data-i18n="destinations.price_from">From</span>
+                            <strong class="fs-4 text-teal destination-price"></strong>
+                        </div>
+                        <button class="btn-premium-outline btn-sm py-2 px-3 view-details-btn" data-i18n="destinations.viewdetails">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Location Card Template (for locations-api) -->
+    <template id="location-card-template">
+        <div class="col-lg-4 col-md-6">
+            <article class="location-card shadow-sm">
+                <img class="location-card-image" src="" alt="" loading="lazy">
+                <div class="location-card-body">
+                    <div>
+                        <h3 class="location-card-title"></h3>
+                        <p class="location-card-description"></p>
+                    </div>
+                    <ul class="specialty-list"></ul>
+                    <div class="location-card-meta mt-auto">
+                        <span class="meta-pill location-card-specialty-count"></span>
+                        <span class="meta-pill location-card-currency"></span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </template>
+
+    <!-- Empty State Template -->
+    <template id="empty-state-template">
+        <div class="col-12 text-center py-5">
+            <i class="fa-solid fa-triangle-exclamation text-muted fs-1 mb-3"></i>
+            <p class="text-muted empty-state-message"></p>
+        </div>
+    </template>
+
+    <!-- Global Booking Modal -->
+    <div class="modal fade glass-modal" id="global-booking-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-header glass-modal-header border-0">
+                    <h5 class="modal-title font-weight-bold" id="booking-modal-title">Book Vacation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="global-booking-form">
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.name">Full Name</label>
+                            <input type="text" class="form-control glass-input" id="book-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted" data-i18n="contact.email">Email Address</label>
+                            <input type="email" class="form-control glass-input" id="book-email" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label text-muted">Travel Date</label>
+                                <input type="date" class="form-control glass-input" id="book-date" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label text-muted" data-i18n="aiplanner.label.people">People</label>
+                                <input type="number" class="form-control glass-input" id="book-guests" min="1" value="1" required>
+                            </div>
+                        </div>
+                        <div class="p-3 mb-4 rounded-3 bg-opacity-10 bg-info border border-info border-opacity-20 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="small text-muted d-block">Estimated Total</span>
+                                <strong class="fs-4" id="book-estimated-cost">$0</strong>
+                            </div>
+                            <span class="badge bg-primary px-3 py-2 rounded-pill" id="book-item-badge">Package</span>
+                        </div>
+                        <button type="submit" class="btn btn-premium w-100 py-3 justify-content-center">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AOS Scroll -->
@@ -254,6 +356,7 @@
     <!-- Core App Scripts -->
     <script src="js/data.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/locations-api.js"></script>
     <script src="js/auth.js"></script>
@@ -292,6 +395,17 @@
             document.addEventListener('currencyChanged', renderCatalog);
             document.addEventListener('languageChanged', renderCatalog);
             document.addEventListener('favoritesChanged', renderCatalog);
+
+            // Language dropdown options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    LanguageEngine.setLanguage(option.dataset.lang);
+                });
+            });
+
+            // Expose openDetailsModal globally for the details button delegation
+            window.openDetailsModal = openDetailsModal;
         });
 
         function setupFilterListeners() {
@@ -307,7 +421,7 @@
             const rangeValEl = document.getElementById('price-limit-val');
             rangeEl.addEventListener('input', (e) => {
                 maxPrice = parseInt(e.target.value);
-                rangeValEl.innerText = MainApp.formatPrice(maxPrice);
+                rangeValEl.textContent = MainApp.formatPrice(maxPrice);
                 renderCatalog();
             });
 
@@ -384,67 +498,33 @@
                 list.sort((a, b) => b.rating - a.rating);
             }
 
+            grid.innerHTML = '';
+
             if (list.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="fa-solid fa-triangle-exclamation text-muted fs-1 mb-3"></i>
-                        <p class="text-muted">${isVi ? 'Không tìm thấy điểm đến nào phù hợp với bộ lọc!' : 'No destinations match your filter criteria!'}</p>
-                    </div>
-                `;
+                // Use empty state template
+                const emptyTemplate = document.getElementById('empty-state-template');
+                if (emptyTemplate) {
+                    const emptyState = emptyTemplate.content.firstElementChild.cloneNode(true);
+                    emptyState.querySelector('.empty-state-message').textContent =
+                        isVi ? 'Không tìm thấy điểm đến nào phù hợp với bộ lọc!' : 'No destinations match your filter criteria!';
+                    grid.appendChild(emptyState);
+                }
                 return;
             }
 
-            let html = '';
             list.forEach(dest => {
-                const name = isVi ? dest.name_vi : dest.name_en;
-                const country = isVi ? dest.country_vi : dest.country_en;
-                const weatherStr = isVi ? dest.weather_vi : dest.weather;
-                const formattedPrice = MainApp.formatPrice(dest.price);
-                const isFav = favorites.includes(dest.id);
-
-                html += `
-                    <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-destination-id="${dest.id}">
-                        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
-                            <div class="img-hover-zoom position-relative" style="height: 220px;">
-                                <img src="${dest.image}" alt="${name}">
-                                <button class="btn-control position-absolute" style="top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; z-index: 2;" onclick="event.stopPropagation(); handleCatalogFavToggle('${dest.id}', this)">
-                                    <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart text-danger"></i>
-                                </button>
-                                <span class="position-absolute bg-dark text-white rounded-pill px-3 py-1 text-xs font-weight-bold" style="bottom: 15px; left: 15px; background-color: rgba(15, 23, 42, 0.7) !important;">
-                                    <i class="fa-solid fa-cloud-sun me-1"></i> ${weatherStr}
-                                </span>
-                            </div>
-                            <div class="p-4 flex-grow-1 d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-teal font-weight-bold small">${country}</span>
-                                    <span class="stars-rating"><i class="fa-solid fa-star"></i> ${dest.rating}</span>
-                                </div>
-                                <h5 class="font-weight-bold mb-3">${name}</h5>
-                                <p class="text-muted small mb-4 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                    ${isVi ? dest.description_vi : dest.description_en}
-                                </p>
-                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-glass mt-auto">
-                                    <div>
-                                        <span class="small text-muted d-block" data-i18n="destinations.price_from">From</span>
-                                        <strong class="fs-4 text-teal">${formattedPrice}</strong>
-                                    </div>
-                                    <button class="btn-premium-outline btn-sm py-2 px-3" onclick="openDetailsModal('${dest.id}')" data-i18n="destinations.viewdetails">View Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const card = UI.createDestinationCard(dest, {
+                    isVi,
+                    isFav: favorites.includes(dest.id)
+                });
+                if (card) {
+                    card.setAttribute('data-aos', 'zoom-in');
+                    grid.appendChild(card);
+                }
             });
-            grid.innerHTML = html;
 
             // Translate static elements inside loop
             if (window.LanguageEngine) LanguageEngine.translatePage();
-        }
-
-        function handleCatalogFavToggle(id, btn) {
-            const added = toggleFavorite(id);
-            const icon = btn.querySelector('i');
-            icon.className = added ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart text-danger';
         }
 
         // Open custom details overlay popup
@@ -468,85 +548,137 @@
             const modalElement = document.getElementById('details-modal');
             const modalContent = document.getElementById('details-modal-content');
 
-            modalContent.innerHTML = `
-        <div class="modal-header glass-modal-header border-0">
-            <h4 class="modal-title font-weight-bold">${name}</h4>
-            <button type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-        </div>
+            // Build modal content using DOM APIs
+            modalContent.innerHTML = '';
 
-        <div class="modal-body p-4">
-            <div class="row g-4">
+            // Modal header
+            const header = document.createElement('div');
+            header.className = 'modal-header glass-modal-header border-0';
+            const title = document.createElement('h4');
+            title.className = 'modal-title font-weight-bold';
+            title.textContent = name;
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-close btn-close-white';
+            closeBtn.setAttribute('data-bs-dismiss', 'modal');
+            closeBtn.setAttribute('aria-label', 'Close');
+            header.appendChild(title);
+            header.appendChild(closeBtn);
+            modalContent.appendChild(header);
 
-                <div class="col-md-6">
-                    <img src="${dest.image}"
-                        alt="${name}"
-                        class="img-fluid rounded-3 mb-3 w-100"
-                        style="height: 250px; object-fit: cover;">
+            // Modal body
+            const body = document.createElement('div');
+            body.className = 'modal-body p-4';
 
-                    <div class="p-3 rounded-3 mb-3"
-                        style="background: var(--bg-glass); border: 1px solid var(--border-glass);">
+            const row = document.createElement('div');
+            row.className = 'row g-4';
 
-                        <h6 class="font-weight-bold text-teal mb-2">
-                            <i class="fa-solid fa-compass me-1"></i>
-                            Quick Information
-                        </h6>
+            // Left column - image + info
+            const leftCol = document.createElement('div');
+            leftCol.className = 'col-md-6';
 
-                        <ul class="list-unstyled mb-0 small text-muted d-flex flex-column gap-2">
-                            <li><strong>Country:</strong> ${country}</li>
-                            <li><strong>Weather Index:</strong> ${weatherStr}</li>
-                            <li><strong>Best Season:</strong> ${season}</li>
-                            <li>
-                                <strong>User Rating:</strong>
-                                <i class="fa-solid fa-star text-warning"></i>
-                                ${dest.rating} / 5.0
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            const img = document.createElement('img');
+            img.src = dest.image;
+            img.alt = name;
+            img.className = 'img-fluid rounded-3 mb-3 w-100';
+            img.style.height = '250px';
+            img.style.objectFit = 'cover';
+            leftCol.appendChild(img);
 
-                <div class="col-md-6">
-                    <p class="text-muted small mb-4">${desc}</p>
+            const infoBox = document.createElement('div');
+            infoBox.className = 'p-3 rounded-3 mb-3';
+            infoBox.style.background = 'var(--bg-glass)';
+            infoBox.style.border = '1px solid var(--border-glass)';
 
-                    <h6 class="font-weight-bold text-teal mb-2">
-                        <i class="fa-solid fa-map-location-dot me-1"></i>
-                        Location Map
-                    </h6>
+            const infoTitle = document.createElement('h6');
+            infoTitle.className = 'font-weight-bold text-teal mb-2';
+            infoTitle.innerHTML = '<i class="fa-solid fa-compass me-1"></i> Quick Information';
+            infoBox.appendChild(infoTitle);
 
-                    <div class="rounded-3 overflow-hidden border border-glass mb-4"
-                        style="height: 180px;">
-                        <iframe
-                            src="${dest.map}"
-                            width="100%"
-                            height="100%"
-                            style="border:0;"
-                            allowfullscreen
-                            loading="lazy">
-                        </iframe>
-                    </div>
+            const infoList = document.createElement('ul');
+            infoList.className = 'list-unstyled mb-0 small text-muted d-flex flex-column gap-2';
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="small text-muted d-block">
-                                Starting Price
-                            </span>
-                            <strong class="fs-3 text-teal">
-                                ${formattedPrice}
-                            </strong>
-                        </div>
+            const addInfoItem = (label, value) => {
+                const li = document.createElement('li');
+                const strong = document.createElement('strong');
+                strong.textContent = label + ': ';
+                li.appendChild(strong);
+                li.appendChild(document.createTextNode(value));
+                infoList.appendChild(li);
+            };
 
-                        <button class="btn btn-premium py-3 px-4"
-                                onclick="openBookingModal('${name}', ${dest.price}, 'destination')">
-                            Book Vacation Now
-                        </button>
-                    </div>
-                </div>
+            addInfoItem('Country', country);
+            addInfoItem('Weather Index', weatherStr);
+            addInfoItem('Best Season', season);
 
-            </div>
-        </div>
-    `;
+            const ratingLi = document.createElement('li');
+            const ratingStrong = document.createElement('strong');
+            ratingStrong.textContent = 'User Rating: ';
+            ratingLi.appendChild(ratingStrong);
+            const star = document.createElement('i');
+            star.className = 'fa-solid fa-star text-warning';
+            ratingLi.appendChild(star);
+            ratingLi.appendChild(document.createTextNode(` ${dest.rating} / 5.0`));
+            infoList.appendChild(ratingLi);
+
+            infoBox.appendChild(infoList);
+            leftCol.appendChild(infoBox);
+            row.appendChild(leftCol);
+
+            // Right column - description + map + booking
+            const rightCol = document.createElement('div');
+            rightCol.className = 'col-md-6';
+
+            const descP = document.createElement('p');
+            descP.className = 'text-muted small mb-4';
+            descP.textContent = desc;
+            rightCol.appendChild(descP);
+
+            const mapTitle = document.createElement('h6');
+            mapTitle.className = 'font-weight-bold text-teal mb-2';
+            mapTitle.innerHTML = '<i class="fa-solid fa-map-location-dot me-1"></i> Location Map';
+            rightCol.appendChild(mapTitle);
+
+            const mapBox = document.createElement('div');
+            mapBox.className = 'rounded-3 overflow-hidden border border-glass mb-4';
+            mapBox.style.height = '180px';
+            const iframe = document.createElement('iframe');
+            iframe.src = dest.map;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.border = '0';
+            iframe.allowFullscreen = true;
+            iframe.loading = 'lazy';
+            mapBox.appendChild(iframe);
+            rightCol.appendChild(mapBox);
+
+            const bookingRow = document.createElement('div');
+            bookingRow.className = 'd-flex justify-content-between align-items-center';
+
+            const priceBox = document.createElement('div');
+            const priceLabel = document.createElement('span');
+            priceLabel.className = 'small text-muted d-block';
+            priceLabel.textContent = 'Starting Price';
+            const priceValue = document.createElement('strong');
+            priceValue.className = 'fs-3 text-teal';
+            priceValue.textContent = formattedPrice;
+            priceBox.appendChild(priceLabel);
+            priceBox.appendChild(priceValue);
+
+            const bookBtn = document.createElement('button');
+            bookBtn.className = 'btn btn-premium py-3 px-4 book-now-btn';
+            bookBtn.dataset.itemName = name;
+            bookBtn.dataset.itemPrice = dest.price;
+            bookBtn.dataset.itemType = 'destination';
+            bookBtn.textContent = 'Book Vacation Now';
+
+            bookingRow.appendChild(priceBox);
+            bookingRow.appendChild(bookBtn);
+            rightCol.appendChild(bookingRow);
+            row.appendChild(rightCol);
+
+            body.appendChild(row);
+            modalContent.appendChild(body);
 
             // Open modal in the center of the user's current viewport
             const scrollY = window.scrollY;

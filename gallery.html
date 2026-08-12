@@ -57,8 +57,8 @@
                             <span id="selected-lang-text">English</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-glass border-glass rounded-3" aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('en'); return false;"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" onclick="LanguageEngine.setLanguage('vi'); return false;"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#" data-lang="en"><img src="https://flagcdn.com/16x12/us.png" alt="US"> English</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 lang-option" href="#" data-lang="vi"><img src="https://flagcdn.com/16x12/vn.png" alt="VN"> Tiếng Việt</a></li>
                         </ul>
                     </div>
                     <div id="navbar-auth-container">
@@ -156,6 +156,17 @@
         </div>
     </footer>
 
+    <!-- Gallery Item Template -->
+    <template id="gallery-item-template">
+        <div class="masonry-item">
+            <img class="gallery-item-img" src="" alt="">
+            <div class="masonry-item-caption">
+                <span class="small font-weight-bold text-teal text-uppercase gallery-item-category"></span>
+                <h6 class="mb-0 font-weight-bold text-sm mt-1 gallery-item-title" style="font-size: 0.85rem;"></h6>
+            </div>
+        </div>
+    </template>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AOS Scroll -->
@@ -166,6 +177,7 @@
     <!-- Core App Scripts -->
     <script src="js/data.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/ai-chat.js"></script>
@@ -196,6 +208,23 @@
             setupGalleryFilters();
             setupLightbox();
             document.addEventListener('languageChanged', renderGallery);
+
+            // Language dropdown options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    LanguageEngine.setLanguage(option.dataset.lang);
+                });
+            });
+
+            // Event delegation for gallery items opening lightbox
+            document.getElementById('masonry-grid-container').addEventListener('click', (e) => {
+                const item = e.target.closest('.masonry-item');
+                if (item) {
+                    const index = parseInt(item.dataset.galleryIndex);
+                    openLightbox(index);
+                }
+            });
         });
 
         function setupGalleryFilters() {
@@ -220,20 +249,11 @@
                 return activeFilter === 'all' || item.category === activeFilter;
             });
 
-            let gridHTML = '';
+            container.innerHTML = '';
             visibleItems.forEach((item, index) => {
-                const title = isVi ? item.title_vi : item.title_en;
-                gridHTML += `
-                    <div class="masonry-item" onclick="openLightbox(${index})">
-                        <img src="${item.img}" alt="${title}">
-                        <div class="masonry-item-caption">
-                            <span class="small font-weight-bold text-teal text-uppercase">${item.category}</span>
-                            <h6 class="mb-0 font-weight-bold text-sm mt-1" style="font-size: 0.85rem;">${title}</h6>
-                        </div>
-                    </div>
-                `;
+                const el = UI.createGalleryItem(item, index, { isVi });
+                if (el) container.appendChild(el);
             });
-            container.innerHTML = gridHTML;
         }
 
         // Lightbox controller
@@ -272,7 +292,7 @@
             const lightbox = document.getElementById('lightbox');
 
             imgEl.src = item.img;
-            capEl.innerText = isVi ? item.title_vi : item.title_en;
+            capEl.textContent = isVi ? item.title_vi : item.title_en;
             
             lightbox.classList.add('active');
         }
